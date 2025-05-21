@@ -1,11 +1,11 @@
-
-
 import 'package:image_picker/image_picker.dart';
 
 class AddProductModel {
   final int? id;
-  final String name;
-  final String? description;
+  final String eName;
+  final String? arName;
+  final String? eDescription;
+  final String? arDescription;
   final double salePrice;
   final double regularPrice;
   final double baseCost;
@@ -17,8 +17,10 @@ class AddProductModel {
 
   AddProductModel({
     this.id,
-    required this.name,
-    this.description,
+    required this.eName,
+    this.arName,
+    this.eDescription,
+    this.arDescription,
     required this.salePrice,
     required this.regularPrice,
     required this.baseCost,
@@ -29,17 +31,21 @@ class AddProductModel {
     required this.updatedAt,
   });
 
-  Map<String, dynamic> toJson() {
+  /// Converts all fields except the image (XFile) to a JSON map.
+  /// Use this when sending multipart/form-data, and attach the image separately.
+  Map<String, String> toJson() {
     return {
-      'name': name,
-      'description': description,
+      'ename': eName,
+      if (arName != null) 'arname': arName!,
+      if (eDescription != null) 'edescription': eDescription!,
+      if (arDescription != null) 'ardescription': arDescription!,
       'sale_price': salePrice.toString(),
       'regular_price': regularPrice.toString(),
       'base_cost': baseCost.toString(),
       'weight': weight.toString(),
-      'Categories': categories.join(","),
-      'CreatedAt': createdAt.toIso8601String(),
-      'UpdatedAt': updatedAt.toIso8601String(),
+      'categories': categories.join(','),
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
     };
   }
 }

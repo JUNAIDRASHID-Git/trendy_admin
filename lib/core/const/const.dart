@@ -3,6 +3,7 @@ const String baseHost = "http://localhost:8080";
 // admin endpoints
 const String usersEndpoint = "$baseHost/admin/users";
 const String productEndpoint = "$baseHost/admin/products";
+const String productExcelEndpoint = "$baseHost/admin/products/import-excel";
 
 // auth end points
 const String registerEndpoint = "$baseHost/api/auth/register";

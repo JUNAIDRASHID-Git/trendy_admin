@@ -1,8 +1,7 @@
 import 'dart:io' show File;
-
 import 'package:admin_pannel/core/services/models/add_product_model.dart';
-import 'package:admin_pannel/core/services/models/product_model.dart';
-import 'package:admin_pannel/presentation/product/pages/bloc/product_bloc.dart';
+import 'package:admin_pannel/core/theme/colors.dart';
+import 'package:admin_pannel/presentation/product/bloc/product_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,7 +19,8 @@ class _AddProductPageState extends State<AddProductPage> {
 
   final nameENController = TextEditingController();
   final nameARController = TextEditingController();
-  final descriptionController = TextEditingController();
+  final descriptionENController = TextEditingController();
+  final descriptionARController = TextEditingController();
   final salePriceController = TextEditingController();
   final regularPriceController = TextEditingController();
   final baseCostController = TextEditingController();
@@ -278,8 +278,13 @@ class _AddProductPageState extends State<AddProductPage> {
                                   isRequired: true,
                                 ),
                                 _buildTextField(
-                                  controller: descriptionController,
-                                  label: 'Description',
+                                  controller: descriptionENController,
+                                  label: 'Description (EN)',
+                                  maxLines: 3,
+                                ),
+                                _buildTextField(
+                                  controller: descriptionARController,
+                                  label: 'Description (AR)',
                                   maxLines: 3,
                                 ),
                                 const SizedBox(height: 24),
@@ -429,9 +434,12 @@ class _AddProductPageState extends State<AddProductPage> {
                                         context.read<ProductBloc>().add(
                                           AddProduct(
                                             AddProductModel(
-                                              name: nameENController.text,
-                                              description:
-                                                  descriptionController.text,
+                                              eName: nameENController.text,
+                                              arName: nameARController.text,
+                                              eDescription:
+                                                  descriptionENController.text,
+                                              arDescription:
+                                                  descriptionARController.text,
                                               salePrice:
                                                   double.tryParse(
                                                     salePriceController.text,
@@ -465,11 +473,11 @@ class _AddProductPageState extends State<AddProductPage> {
                                         ScaffoldMessenger.of(
                                           context,
                                         ).showSnackBar(
-                                          const SnackBar(
+                                          SnackBar(
                                             content: Text(
                                               'Product saved successfully!',
                                             ),
-                                            backgroundColor: Colors.green,
+                                            backgroundColor: primaryColor,
                                           ),
                                         );
                                       } else if (selectedImage == null &&
@@ -487,7 +495,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.blue,
+                                      backgroundColor: primaryColor,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
                                       ),
@@ -495,6 +503,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                     child: const Text(
                                       "Save Product",
                                       style: TextStyle(
+                                        color: Colors.white,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16,
                                       ),
@@ -533,19 +542,19 @@ class _AddProductPageState extends State<AddProductPage> {
         keyboardType: keyboardType,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.grey[700]),
+          labelStyle: TextStyle(color: fontColor),
           prefixIcon: prefixIcon,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Colors.grey.shade300),
+            borderSide: BorderSide(color: greyColor),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: Colors.grey.shade300),
+            borderSide: BorderSide(color: greyColor),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: Colors.blue, width: 1.5),
+            borderSide: BorderSide(color: primaryColor, width: 1.5),
           ),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,

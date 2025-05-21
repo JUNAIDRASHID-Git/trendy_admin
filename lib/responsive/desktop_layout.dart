@@ -2,7 +2,6 @@ import 'package:admin_pannel/core/theme/colors.dart';
 import 'package:admin_pannel/presentation/admins/admins.dart';
 import 'package:admin_pannel/presentation/home/home.dart';
 import 'package:admin_pannel/presentation/orders/orders.dart';
-import 'package:admin_pannel/presentation/product/pages/add_product.dart';
 import 'package:admin_pannel/presentation/product/pages/products.dart';
 import 'package:admin_pannel/presentation/settings/settings.dart';
 import 'package:admin_pannel/presentation/users/users.dart';
@@ -25,7 +24,6 @@ class _DesktopLayoutState extends State<DesktopLayout> {
     UsersPage(),
     AdminsPage(),
     SettingsPage(),
-    AddProductPage(),
   ];
 
   Widget _buildNavItem({
@@ -62,7 +60,7 @@ class _DesktopLayoutState extends State<DesktopLayout> {
         children: [
           Container(
             width: 190,
-            color: const Color.fromARGB(255, 220, 220, 220),
+            color: greyColor,
             child: ListView(
               padding: EdgeInsets.zero,
               children: [

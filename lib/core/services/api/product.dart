@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:admin_pannel/core/const/const.dart';
 import 'package:admin_pannel/core/services/models/add_product_model.dart';
 import 'package:admin_pannel/core/services/models/product_model.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
-import 'package:http/http.dart' as http;
 
 Future<List<ProductModel>> fetchAllProducts() async {
   final uri = Uri.parse(productEndpoint);
@@ -22,7 +22,8 @@ Future<List<ProductModel>> fetchAllProducts() async {
     if (response.statusCode == 200) {
       log("Products data fetched");
       final List<dynamic> jsonData = json.decode(response.body);
-      return jsonData.map((e) => ProductModel.fromJson(e)).toList();
+      final products = jsonData.map((e) => ProductModel.fromJson(e)).toList();
+      return products.reversed.toList();
     } else {
       throw Exception("failed to fetch the product");
     }
@@ -50,9 +51,7 @@ Future<void> addProduct(AddProductModel product, XFile imageFile) async {
     // Add the rest of the fields as form fields
     final fields = product.toJson();
     fields.forEach((key, value) {
-      if (value != null) {
-        request.fields[key] = value.toString();
-      }
+      request.fields[key] = value.toString();
     });
 
     final response = await request.send();
@@ -66,6 +65,30 @@ Future<void> addProduct(AddProductModel product, XFile imageFile) async {
     }
   } catch (e) {
     log("🚨 Exception while adding product: $e");
+    rethrow;
+  }
+}
+
+Future<void> deleteProduct(int id) async {
+  final uri = Uri.parse('$productEndpoint/$id');
+
+  try {
+    final response = await http.delete(
+      uri,
+      headers: {
+        "X-API-KEY": apiKey,
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      log("✅ Product deleted successfully");
+    } else {
+      log("❌ Failed to delete product: ${response.statusCode}");
+      throw Exception('Failed to delete product');
+    }
+  } catch (e) {
+    log("🚨 Exception while deleting product: $e");
     rethrow;
   }
 }

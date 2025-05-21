@@ -1,6 +1,6 @@
 import 'package:admin_pannel/presentation/home/bloc/home_bloc.dart';
 import 'package:admin_pannel/presentation/home/bloc/home_event.dart';
-import 'package:admin_pannel/presentation/product/pages/bloc/product_bloc.dart';
+import 'package:admin_pannel/presentation/product/bloc/product_bloc.dart';
 import 'package:admin_pannel/presentation/users/bloc/user_bloc.dart';
 import 'package:admin_pannel/presentation/users/bloc/user_event.dart';
 import 'package:admin_pannel/responsive/desktop_layout.dart';

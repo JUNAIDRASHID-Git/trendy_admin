@@ -26,3 +26,23 @@ class ProductAddFailure extends ProductState {
 
   ProductAddFailure({required this.error});
 }
+
+// New states for uploading Excel file
+
+class ExcelUploadInProgress extends ProductState {}
+
+class ExcelUploadSuccess extends ProductState {}
+
+class ExcelUploadFailure extends ProductState {
+  final String error;
+  ExcelUploadFailure({required this.error});
+}
+
+class ProductDeleteLoading extends ProductState {}
+
+class ProductDeleteSuccess extends ProductState {}
+
+class ProductDeleteFailure extends ProductState {
+  final String error;
+  ProductDeleteFailure({required this.error});
+}

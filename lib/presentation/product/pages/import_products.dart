@@ -49,7 +49,7 @@ class ExcelUploadWidget extends StatelessWidget {
   }
 
   Widget _buildUploadArea(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () => _pickExcelFile(context),
       child: Container(
         width: double.infinity,
@@ -67,7 +67,10 @@ class ExcelUploadWidget extends StatelessWidget {
               color: Theme.of(context).primaryColor,
             ),
             const SizedBox(height: 8),
-            const Text('Click to select Excel file (.xlsx)'),
+            Text(
+              'Click to select Excel file (.xlsx)',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ],
         ),
       ),

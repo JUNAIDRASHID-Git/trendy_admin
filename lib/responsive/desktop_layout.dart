@@ -37,13 +37,18 @@ class _DesktopLayoutState extends State<DesktopLayout> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: isSelected ? primaryColor : Colors.transparent,
+          color: isSelected ? AppColors.primary : Colors.transparent,
         ),
         child: ListTile(
-          leading: Icon(icon, color: isSelected ? fontWhite : fontColor),
+          leading: Icon(
+            icon,
+            color: isSelected ? AppColors.fontWhite : AppColors.fontBlack,
+          ),
           title: Text(
             title,
-            style: TextStyle(color: isSelected ? fontWhite : fontColor),
+            style: TextStyle(
+              color: isSelected ? AppColors.fontWhite : AppColors.fontBlack,
+            ),
           ),
           onTap: () {
             setState(() => _selectedIndex = index);
@@ -60,7 +65,7 @@ class _DesktopLayoutState extends State<DesktopLayout> {
         children: [
           Container(
             width: 190,
-            color: greyColor,
+            color: AppColors.secondary,
             child: ListView(
               padding: EdgeInsets.zero,
               children: [

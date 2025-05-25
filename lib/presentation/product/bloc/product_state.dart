@@ -46,3 +46,14 @@ class ProductDeleteFailure extends ProductState {
   final String error;
   ProductDeleteFailure({required this.error});
 }
+
+// New states for updating product
+
+class ProductUpdateLoading extends ProductState {}
+
+class ProductUpdateSuccess extends ProductState {}
+
+class ProductUpdateFailure extends ProductState {
+  final String error;
+  ProductUpdateFailure({required this.error});
+}

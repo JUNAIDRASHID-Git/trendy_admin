@@ -21,15 +21,11 @@ class AddProduct extends ProductEvent {
 // The excelBytes is a Uint8List that contains the bytes of the excel file.
 // The event is used to upload the excel file to the server.
 
-
 class UploadExcelFileEvent extends ProductEvent {
   final String fileName;
   final Uint8List excelBytes;
 
-  UploadExcelFileEvent({
-    required this.fileName,
-    required this.excelBytes,
-  });
+  UploadExcelFileEvent({required this.fileName, required this.excelBytes});
 }
 
 // delete product event
@@ -44,9 +40,8 @@ class ProductDeleteEvent extends ProductEvent {
 
 class ProductUpdateEvent extends ProductEvent {
   final int id;
-  final AddProductModel product;
+  final EditProductModel product;
+  final XFile? image;
 
-  ProductUpdateEvent(this.id, this.product);
+  ProductUpdateEvent(this.id, this.product,this.image);
 }
-
-

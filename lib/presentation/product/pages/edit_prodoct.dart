@@ -2,6 +2,7 @@
 
 import 'dart:io' show File;
 
+import 'package:admin_pannel/core/services/models/editproduct_model.dart';
 import 'package:admin_pannel/core/services/models/product_model.dart';
 import 'package:admin_pannel/presentation/product/widgets/textfields/build_text_field.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -9,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:admin_pannel/core/services/models/add_product_model.dart';
 import 'package:admin_pannel/core/theme/colors.dart';
 import 'package:admin_pannel/presentation/product/bloc/product_bloc.dart';
 
@@ -56,7 +56,6 @@ class _EditProductPageState extends State<EditProductPage> {
   final Set<String> selectedCategories = {};
 
   XFile? selectedImage;
-  bool isImageRequired = true;
 
   Future<void> pickImage() async {
     final picker = ImagePicker();
@@ -137,14 +136,6 @@ class _EditProductPageState extends State<EditProductPage> {
                                       decoration: BoxDecoration(
                                         color: Colors.grey[100],
                                         borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                          color:
-                                              selectedImage == null &&
-                                                      isImageRequired
-                                                  ? Colors.red
-                                                  : Colors.grey.shade300,
-                                          width: 1,
-                                        ),
                                       ),
                                       child:
                                           selectedImage != null
@@ -182,19 +173,6 @@ class _EditProductPageState extends State<EditProductPage> {
                                                       fontSize: 13,
                                                     ),
                                                   ),
-                                                  if (isImageRequired)
-                                                    Text(
-                                                      "Required",
-                                                      style: TextStyle(
-                                                        color:
-                                                            selectedImage ==
-                                                                    null
-                                                                ? Colors.red
-                                                                : Colors
-                                                                    .grey[600],
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
                                                 ],
                                               ),
                                     ),
@@ -448,45 +426,38 @@ class _EditProductPageState extends State<EditProductPage> {
                                   height: 48,
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      if ((selectedImage != null ||
-                                              !isImageRequired) &&
-                                          _formKey.currentState!.validate()) {
+                                      if (_formKey.currentState!.validate()) {
                                         context.read<ProductBloc>().add(
-                                          AddProduct(
-                                            AddProductModel(
-                                              id: widget.product.id,
+                                          ProductUpdateEvent(
+                                            int.parse(
+                                              widget.product.id.toString(),
+                                            ),
+                                            EditProductModel(
                                               eName: nameENController.text,
                                               arName: nameARController.text,
                                               eDescription:
                                                   descriptionENController.text,
                                               arDescription:
                                                   descriptionARController.text,
-                                              salePrice:
-                                                  double.tryParse(
-                                                    salePriceController.text,
-                                                  ) ??
-                                                  0,
-                                              regularPrice:
-                                                  double.tryParse(
-                                                    regularPriceController.text,
-                                                  ) ??
-                                                  0,
-                                              baseCost:
-                                                  double.tryParse(
-                                                    baseCostController.text,
-                                                  ) ??
-                                                  0,
-                                              weight:
-                                                  double.tryParse(
-                                                    weightController.text,
-                                                  ) ??
-                                                  0,
+                                              salePrice: double.parse(
+                                                salePriceController.text,
+                                              ),
+                                              regularPrice: double.parse(
+                                                regularPriceController.text,
+                                              ),
+                                              baseCost: double.parse(
+                                                baseCostController.text,
+                                              ),
+                                              weight: double.parse(
+                                                weightController.text,
+                                              ),
                                               categories:
                                                   selectedCategories.toList(),
-                                              image: XFile(selectedImage!.path),
-                                              createdAt: DateTime.now(),
+                                              createdAt:
+                                                  widget.product.createdAt,
                                               updatedAt: DateTime.now(),
                                             ),
+                                            selectedImage,
                                           ),
                                         );
 
@@ -500,25 +471,13 @@ class _EditProductPageState extends State<EditProductPage> {
                                             content: Text(
                                               'Product saved successfully!',
                                             ),
-                                            backgroundColor: primaryColor,
-                                          ),
-                                        );
-                                      } else if (selectedImage == null &&
-                                          isImageRequired) {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Product image is required',
-                                            ),
-                                            backgroundColor: Colors.red,
+                                            backgroundColor: AppColors.primary,
                                           ),
                                         );
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: primaryColor,
+                                      backgroundColor: AppColors.primary,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
                                       ),

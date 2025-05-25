@@ -465,6 +465,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                               image: XFile(selectedImage!.path),
                                               createdAt: DateTime.now(),
                                               updatedAt: DateTime.now(),
+                                              id: 0,
                                             ),
                                           ),
                                         );
@@ -477,7 +478,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                             content: Text(
                                               'Product saved successfully!',
                                             ),
-                                            backgroundColor: primaryColor,
+                                            backgroundColor: AppColors.primary,
                                           ),
                                         );
                                       } else if (selectedImage == null &&
@@ -495,7 +496,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: primaryColor,
+                                      backgroundColor: AppColors.primary,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
                                       ),
@@ -542,19 +543,19 @@ class _AddProductPageState extends State<AddProductPage> {
         keyboardType: keyboardType,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: fontColor),
+          labelStyle: TextStyle(color: AppColors.fontBlack),
           prefixIcon: prefixIcon,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: greyColor),
+            borderSide: BorderSide(color: AppColors.secondary),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: greyColor),
+            borderSide: BorderSide(color: AppColors.secondary),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: primaryColor, width: 1.5),
+            borderSide: BorderSide(color: AppColors.primary, width: 1.5),
           ),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,

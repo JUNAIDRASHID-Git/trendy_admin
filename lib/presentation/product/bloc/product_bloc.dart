@@ -3,8 +3,10 @@ import 'dart:typed_data';
 import 'package:admin_pannel/core/services/api/excel_importer.dart';
 import 'package:admin_pannel/core/services/api/product.dart';
 import 'package:admin_pannel/core/services/models/add_product_model.dart';
+import 'package:admin_pannel/core/services/models/editproduct_model.dart';
 import 'package:admin_pannel/core/services/models/product_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 part 'product_event.dart';
 part 'product_state.dart';
 
@@ -12,7 +14,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc() : super(ProductInitial()) {
     on<FetchProduct>((event, emit) async {
       emit(ProductLoading());
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 1));
       try {
         final product = await fetchAllProducts();
         emit(ProductLoaded(products: product));
@@ -57,6 +59,17 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         add(FetchProduct());
       } catch (e) {
         emit(ProductDeleteFailure(error: e.toString()));
+      }
+    });
+
+    on<ProductUpdateEvent>((event, emit) async {
+      emit(ProductUpdateLoading());
+      try {
+        await updateProduct(event.id, event.product, imageFile: event.image);
+        emit(ProductUpdateSuccess());
+        add(FetchProduct());
+      } catch (e) {
+        emit(ProductUpdateFailure(error: e.toString()));
       }
     });
   }

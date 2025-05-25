@@ -1,5 +1,6 @@
+
 class ProductModel {
-  final int id;
+  final int? id;
   final String eName;
   final String? arName;
   final String? eDescription;
@@ -14,7 +15,7 @@ class ProductModel {
   final DateTime updatedAt;
 
   ProductModel({
-    required this.id,
+    this.id,
     required this.eName,
     this.arName,
     this.eDescription,
@@ -41,7 +42,8 @@ class ProductModel {
       baseCost: (json['BaseCost'] as num?)?.toDouble() ?? 0.0,
       image: json['Image'] ?? '',
       weight: (json['Weight'] as num?)?.toDouble() ?? 0.0,
-      categories: (json['Categories'] as List<dynamic>?)
+      categories:
+          (json['Categories'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           [],
@@ -67,5 +69,4 @@ class ProductModel {
       'UpdatedAt': updatedAt.toIso8601String(),
     };
   }
-
 }

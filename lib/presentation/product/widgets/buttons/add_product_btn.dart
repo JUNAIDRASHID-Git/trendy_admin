@@ -1,11 +1,10 @@
-import 'package:admin_pannel/core/theme/colors.dart';
 import 'package:admin_pannel/presentation/product/pages/add_product.dart';
 import 'package:flutter/material.dart';
 
 ElevatedButton addProductBtn(BuildContext context) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
-      backgroundColor: primaryColor,
+      backgroundColor: Colors.blueAccent[400],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
     ),

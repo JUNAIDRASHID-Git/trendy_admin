@@ -1,4 +1,4 @@
-const String baseHost = "http://localhost:8080";
+const String baseHost = "https://ecommerce-api-mrpq.onrender.com";
 
 // admin endpoints
 const String usersEndpoint = "$baseHost/admin/users";

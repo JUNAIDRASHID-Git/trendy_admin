@@ -3,84 +3,120 @@ import 'package:flutter/widgets.dart';
 
 Container headerBar(bool isMobile, double availableWidth) {
   return Container(
-    color: primaryColor,
+    color: AppColors.primary,
     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
     child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // No column
+        // ID Column
         SizedBox(
-          width: isMobile ? availableWidth * 0.08 : availableWidth * 0.05,
+          width: availableWidth * 0.05,
           child: Text(
-            'No.',
+            'ID',
             style: TextStyle(
-              color: fontWhite,
+              color: AppColors.fontWhite,
               fontSize: isMobile ? 12 : 14,
               fontWeight: FontWeight.bold,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
+
+        SizedBox(width: availableWidth * 0.01),
 
         // Image column
-        SizedBox(
-          width: isMobile ? availableWidth * 0.15 : availableWidth * 0.1,
-          child: Text(
-            'Image',
-            style: TextStyle(
-              color: fontWhite,
-              fontSize: isMobile ? 12 : 14,
-              fontWeight: FontWeight.bold,
+        if (!isMobile) ...[
+          SizedBox(
+            width: availableWidth * 0.1,
+            child: Text(
+              'Image',
+              style: TextStyle(
+                color: AppColors.fontWhite,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
             ),
           ),
-        ),
+          SizedBox(width: availableWidth * 0.02),
+        ],
 
         // Name column
-        SizedBox(
-          width: isMobile ? availableWidth * 0.25 : availableWidth * 0.2,
-          child: Text(
-            'Name',
-            style: TextStyle(
-              color: fontWhite,
-              fontSize: isMobile ? 12 : 14,
-              fontWeight: FontWeight.bold,
+        Expanded(
+          flex: isMobile ? 3 : 2,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              'Name',
+              style: TextStyle(
+                color: AppColors.fontWhite,
+                fontSize: isMobile ? 12 : 14,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
 
         // Categories column
-        SizedBox(
-          width: isMobile ? availableWidth * 0.25 : availableWidth * 0.3,
-          child: Text(
-            'Categories',
-            style: TextStyle(
-              color: fontWhite,
-              fontSize: isMobile ? 12 : 14,
-              fontWeight: FontWeight.bold,
+        if (!isMobile || availableWidth > 600)
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                'Categories',
+                style: TextStyle(
+                  color: AppColors.fontWhite,
+                  fontSize: isMobile ? 12 : 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-        ),
 
         // Weight column
         SizedBox(
-          width: isMobile ? availableWidth * 0.12 : availableWidth * 0.15,
+          width: availableWidth * (isMobile ? 0.15 : 0.1),
           child: Text(
             'Weight',
             style: TextStyle(
-              color: fontWhite,
+              color: AppColors.fontWhite,
               fontSize: isMobile ? 12 : 14,
               fontWeight: FontWeight.bold,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
 
-        // Actions column
-        Expanded(
+        SizedBox(width: availableWidth * 0.01),
+
+        // Sale Price column
+        SizedBox(
+          width: availableWidth * (isMobile ? 0.2 : 0.12),
           child: Text(
-            'Actions',
+            'Sale Price',
             style: TextStyle(
-              color: fontWhite,
+              color: AppColors.fontWhite,
               fontSize: isMobile ? 12 : 14,
               fontWeight: FontWeight.bold,
             ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+
+        SizedBox(width: availableWidth * 0.01),
+
+        // Actions column
+        SizedBox(
+          width: availableWidth * (isMobile ? 0.2 : 0.15),
+          child: Text(
+            'Actions',
+            style: TextStyle(
+              color: AppColors.fontWhite,
+              fontSize: isMobile ? 12 : 14,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
       ],

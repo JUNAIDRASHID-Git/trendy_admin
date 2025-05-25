@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:admin_pannel/core/const/const.dart';
 import 'package:admin_pannel/core/services/models/add_product_model.dart';
+import 'package:admin_pannel/core/services/models/editproduct_model.dart';
 import 'package:admin_pannel/core/services/models/product_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -65,6 +66,53 @@ Future<void> addProduct(AddProductModel product, XFile imageFile) async {
     }
   } catch (e) {
     log("🚨 Exception while adding product: $e");
+    rethrow;
+  }
+}
+
+Future<void> updateProduct(
+  int id,
+  EditProductModel product, {
+  XFile? imageFile,
+}) async {
+  final uri = Uri.parse("$productEndpoint/$id");
+
+  try {
+    final request = http.MultipartRequest('PUT', uri)
+      ..headers['X-API-KEY'] = apiKey;
+
+    // Only print imageFile if it's not null
+    if (imageFile != null) {
+      print("$imageFile image file");
+
+      // Add image if provided
+      final imageStream = http.MultipartFile.fromBytes(
+        'image',
+        await imageFile.readAsBytes(),
+        filename: path.basename(imageFile.path),
+      );
+      request.files.add(imageStream);
+    } else {
+      print("No image file provided, skipping image upload");
+    }
+
+    // Convert the product fields to a map of form fields
+    final fields = product.toJson();
+    fields.forEach((key, value) {
+      request.fields[key] = value.toString();
+    });
+
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      log("✅ Product updated successfully");
+    } else {
+      final respStr = await response.stream.bytesToString();
+      log("❌ Failed to update product: ${response.statusCode} $respStr");
+      throw Exception('Failed to update product');
+    }
+  } catch (e) {
+    log("🚨 Exception while updating product: $e");
     rethrow;
   }
 }

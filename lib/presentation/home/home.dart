@@ -14,8 +14,11 @@ class HomePage extends StatelessWidget {
       padding: const EdgeInsets.all(5.0),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("DashBoard", style: TextStyle(color: fontWhite)),
-          backgroundColor: primaryColor,
+          title: Text(
+            "DashBoard",
+            style: TextStyle(color: AppColors.fontWhite),
+          ),
+          backgroundColor: AppColors.primary,
         ),
         body: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
@@ -34,7 +37,10 @@ class HomePage extends StatelessWidget {
                   children: [
                     totalContainer(title: "Admins", total: 0),
                     totalContainer(title: "Users", total: state.usersCount),
-                    totalContainer(title: "Products", total: state.productsCount),
+                    totalContainer(
+                      title: "Products",
+                      total: state.productsCount,
+                    ),
                     totalContainer(title: "Order", total: 0),
                     totalContainerPrices(title: "Sales", total: 0),
                   ],

@@ -1,10 +1,8 @@
 import 'package:admin_pannel/core/const/const.dart';
 import 'package:admin_pannel/core/services/models/product_model.dart';
 import 'package:admin_pannel/core/theme/colors.dart';
-import 'package:admin_pannel/presentation/product/bloc/product_bloc.dart';
-import 'package:admin_pannel/presentation/product/pages/edit_prodoct.dart';
+import 'package:admin_pannel/presentation/product/widgets/buttons/action_btn.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 Expanded productListWidget(
   List<ProductModel> products,
@@ -18,159 +16,153 @@ Expanded productListWidget(
       itemBuilder: (context, index) {
         final product = products[index];
         return Container(
-          color: index % 2 == 0 ? greyColor : greyColor.withOpacity(0.7),
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          color: AppColors.secondary,
+          margin: const EdgeInsets.only(bottom: 2),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // No column
+              // ID Column
               SizedBox(
-                width: isMobile ? availableWidth * 0.08 : availableWidth * 0.05,
+                width: availableWidth * 0.05,
                 child: Text(
-                  '${index + 1}',
-                  style: TextStyle(fontSize: isMobile ? 12 : 14),
+                  product.id.toString(),
+                  style: TextStyle(
+                    fontSize: isMobile ? 12 : 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
 
-              // Image column
-              SizedBox(
-                width: isMobile ? availableWidth * 0.15 : availableWidth * 0.1,
-                child: SizedBox(
-                  width: isMobile ? 40 : 60,
-                  height: isMobile ? 60 : 80,
-                  child: Image.network(
-                    "$baseHost${product.image}",
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Icon(Icons.image_not_supported, size: 24);
-                    },
-                    loadingBuilder: (context, child, progress) {
-                      if (progress == null) return child;
-                      return const Center(
-                        child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
+              SizedBox(width: availableWidth * 0.01),
+
+              // Image Column
+              if (!isMobile) ...[
+                SizedBox(
+                  width: availableWidth * 0.1,
+                  child: Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Image.network(
+                          "$baseHost${product.image}",
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: const Icon(
+                                  Icons.image_not_supported,
+                                  size: 24,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                          loadingBuilder: (context, child, progress) {
+                            if (progress == null) return child;
+                            return Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[100],
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: const Center(
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: availableWidth * 0.02),
+              ],
+
+              // Name Column
+              Expanded(
+                flex: isMobile ? 3 : 2,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        product.eName,
+                        style: TextStyle(
+                          fontSize: isMobile ? 12 : 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                    ],
                   ),
                 ),
               ),
 
-              // Name column
-              SizedBox(
-                width: isMobile ? availableWidth * 0.25 : availableWidth * 0.2,
-                child: Text(
-                  product.eName,
-                  style: TextStyle(fontSize: isMobile ? 12 : 14),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
+              // Categories Column
+              if (!isMobile || availableWidth > 600)
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      product.categories.isNotEmpty
+                          ? product.categories.join(', ')
+                          : '—',
+                      style: TextStyle(
+                        fontSize: isMobile ? 11 : 13,
+                        color: Colors.grey[600],
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ),
                 ),
-              ),
 
-              // Categories column
+              // Weight Column
               SizedBox(
-                width: isMobile ? availableWidth * 0.25 : availableWidth * 0.3,
-                child: Text(
-                  product.categories.isNotEmpty
-                      ? product.categories.join(', ')
-                      : '—',
-                  style: TextStyle(fontSize: isMobile ? 12 : 14),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                ),
-              ),
-
-              // Weight column
-              SizedBox(
-                width: isMobile ? availableWidth * 0.12 : availableWidth * 0.15,
+                width: availableWidth * (isMobile ? 0.15 : 0.1),
                 child: Text(
                   '${product.weight} kg',
-                  style: TextStyle(fontSize: isMobile ? 12 : 14),
+                  style: TextStyle(
+                    fontSize: isMobile ? 11 : 13,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
 
-              // Actions column
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        // Edit action
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) => EditProductPage(product: product),
-                          ),
-                        );
-                      },
-                      icon: Icon(
-                        Icons.edit,
-                        color: primaryColor,
-                        size: isMobile ? 18 : 20,
-                      ),
-                      tooltip: 'Edit',
-                      constraints: const BoxConstraints(),
-                      padding: const EdgeInsets.all(8),
-                    ),
-                    const SizedBox(width: 4),
-                    IconButton(
-                      onPressed: () {
-                        // Delete action
-                        showDialog(
-                          context: context,
-                          builder:
-                              (context) => AlertDialog(
-                                title: const Text('Delete Product'),
-                                content: Text(
-                                  'Are you sure you want to delete "${product.eName}"?',
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed:
-                                        () => Navigator.of(context).pop(),
-                                    child: const Text('Cancel'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      // Implement delete functionality
-                                      mainContext.read<ProductBloc>().add(
-                                        ProductDeleteEvent(product.id),
-                                      );
-                                      // Show success message
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        SnackBar(
-                                          backgroundColor: Colors.lightGreen,
-                                          content: Text('Product deleted'),
-                                        ),
-                                      );
+              SizedBox(width: availableWidth * 0.01),
 
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text(
-                                      'Delete',
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                        );
-                      },
-                      icon: Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                        size: isMobile ? 18 : 20,
-                      ),
-                      tooltip: 'Delete',
-                      constraints: const BoxConstraints(),
-                      padding: const EdgeInsets.all(8),
-                    ),
-                  ],
+              // Sale Price Column
+              SizedBox(
+                width: availableWidth * (isMobile ? 0.2 : 0.12),
+                child: Text(
+                  "${product.salePrice.toDouble()} SAR",
+                  style: TextStyle(
+                    fontSize: isMobile ? 11 : 13,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.green[700],
+                  ),
+                  textAlign: TextAlign.center,
                 ),
+              ),
+
+              SizedBox(width: availableWidth * 0.01),
+
+              // Action Buttons
+              SizedBox(
+                width: availableWidth * (isMobile ? 0.2 : 0.15),
+                child: actionButton(isMobile, product, mainContext),
               ),
             ],
           ),

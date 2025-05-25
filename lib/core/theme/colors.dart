@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-Color fontColor = Colors.black;
-Color fontWhite = Colors.white;
-Color primaryColor = Colors.teal.shade700;
-Color greyColor = Colors.grey.shade200;
+class AppColors {
+  static Color primary = Colors.teal.shade700;
+  static Color secondary = const Color.fromARGB(255, 255, 255, 255);
+  static Color fontBlack = Colors.black;
+  static Color fontWhite = Colors.white;
+}

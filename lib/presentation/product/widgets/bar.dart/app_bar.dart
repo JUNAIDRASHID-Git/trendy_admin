@@ -5,10 +5,14 @@ import 'package:flutter/material.dart';
 
 AppBar appBar(BuildContext context) {
   return AppBar(
-    backgroundColor: greyColor,
+    backgroundColor: AppColors.primary,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      side: BorderSide(color: AppColors.primary),
+    ),
     title: Text(
       "All Products",
-      style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold),
+      style: TextStyle(color: AppColors.fontWhite, fontWeight: FontWeight.bold),
     ),
     actions: [
       addProductBtn(context),

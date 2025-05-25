@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 Container totalContainer({required String title, required int total}) {
   return Container(
     decoration: BoxDecoration(
-      color: primaryColor,
+      color: AppColors.primary,
       borderRadius: BorderRadius.circular(20),
     ),
     child: Column(
@@ -13,7 +13,7 @@ Container totalContainer({required String title, required int total}) {
         Text(
           "Total $title",
           style: TextStyle(
-            color: fontWhite,
+            color: AppColors.fontWhite,
             fontSize: 22,
             fontWeight: FontWeight.bold,
             letterSpacing: 3,
@@ -45,7 +45,7 @@ Container totalContainer({required String title, required int total}) {
 Container totalContainerPrices({required String title, required int total}) {
   return Container(
     decoration: BoxDecoration(
-      color: primaryColor,
+      color: AppColors.primary,
       borderRadius: BorderRadius.circular(20),
     ),
     child: Column(
@@ -54,7 +54,7 @@ Container totalContainerPrices({required String title, required int total}) {
         Text(
           "Total $title",
           style: TextStyle(
-            color: fontWhite,
+            color: AppColors.fontWhite,
             fontSize: 22,
             fontWeight: FontWeight.bold,
             letterSpacing: 3,

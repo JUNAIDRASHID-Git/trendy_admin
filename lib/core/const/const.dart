@@ -1,4 +1,4 @@
-const String baseHost = "http://localhost:8080";
+const String baseHost = "https://trendyback.onrender.com";
 const String googleAdminLoginEndpoint = "$baseHost/auth/google-admin";
 
 // Admin endpoints (require API key)

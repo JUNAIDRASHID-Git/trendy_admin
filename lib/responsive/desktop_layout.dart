@@ -15,7 +15,7 @@ class DesktopLayout extends StatefulWidget {
 }
 
 class _DesktopLayoutState extends State<DesktopLayout> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 4;
 
   final List<Widget> _pages = [
     HomePage(),

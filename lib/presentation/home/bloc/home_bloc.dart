@@ -1,5 +1,5 @@
-import 'package:admin_pannel/core/services/api/product.dart';
-import 'package:admin_pannel/core/services/api/user.dart';
+import 'package:admin_pannel/core/services/api/product/product.dart';
+import 'package:admin_pannel/core/services/api/user/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'home_event.dart';
 import 'home_state.dart';

@@ -1,14 +1,18 @@
-const String baseHost = "https://ecommerce-api-mrpq.onrender.com";
+const String baseHost = "http://localhost:8080";
+const String googleAdminLoginEndpoint = "$baseHost/auth/google-admin";
 
-// admin endpoints
-const String usersEndpoint = "$baseHost/admin/users";
-const String productEndpoint = "$baseHost/admin/products";
-const String productExcelEndpoint = "$baseHost/admin/products/import-excel";
+// Admin endpoints (require API key)
+const String adminUsersEndpoint = "$baseHost/admin/users";
+const String adminsEndpoint = "$baseHost/admin/admins";
 
-// auth end points
-const String registerEndpoint = "$baseHost/api/auth/register";
-const String loginEndpoint = "$baseHost/api/auth/login";
-const String googleEndpoint = "$baseHost/auth/google";
+const String adminApproveEndpoint = "$baseHost/admin/approve-admin";
+
+const String adminProductsEndpoint = "$baseHost/admin/products";
+const String adminProductExcelEndpoint =
+    "$baseHost/admin/products/import-excel";
+const String adminPendingAdminsEndpoint = "$baseHost/admin/pending-admins";
+const String adminApproveAdminEndpoint = "$baseHost/admin/approve-admin";
+const String adminRejectAdminEndpoint = "$baseHost/admin/reject-admin";
 
 // apikey
 const String apiKey = "trendyMm2030Mm";

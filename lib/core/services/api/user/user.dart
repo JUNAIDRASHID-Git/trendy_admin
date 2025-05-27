@@ -5,7 +5,7 @@ import 'package:admin_pannel/core/services/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<UserModel>> fetchAllUsers() async {
-  final uri = Uri.parse(usersEndpoint);
+  final uri = Uri.parse(adminUsersEndpoint);
 
   try {
     final response = await http.get(

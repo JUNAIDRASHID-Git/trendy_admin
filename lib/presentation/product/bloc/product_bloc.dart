@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:typed_data';
-import 'package:admin_pannel/core/services/api/excel_importer.dart';
-import 'package:admin_pannel/core/services/api/product.dart';
+import 'package:admin_pannel/core/services/api/excel/excel_importer.dart';
+import 'package:admin_pannel/core/services/api/product/product.dart';
 import 'package:admin_pannel/core/services/models/add_product_model.dart';
 import 'package:admin_pannel/core/services/models/editproduct_model.dart';
 import 'package:admin_pannel/core/services/models/product_model.dart';

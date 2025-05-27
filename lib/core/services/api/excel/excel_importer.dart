@@ -7,7 +7,7 @@ Future<void> uploadExcelProducts({
   required String fileName,
   required Uint8List fileBytes,
 }) async {
-  final uri = Uri.parse(productExcelEndpoint);
+  final uri = Uri.parse(adminProductExcelEndpoint);
 
   final request =
       http.MultipartRequest("POST", uri)

@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
 Future<List<ProductModel>> fetchAllProducts() async {
-  final uri = Uri.parse(productEndpoint);
+  final uri = Uri.parse(adminProductsEndpoint);
 
   try {
     final response = await http.get(
@@ -35,7 +35,7 @@ Future<List<ProductModel>> fetchAllProducts() async {
 }
 
 Future<void> addProduct(AddProductModel product, XFile imageFile) async {
-  final uri = Uri.parse(productEndpoint); // Ensure productEndpoint is defined
+  final uri = Uri.parse(adminProductsEndpoint); // Ensure adminProductsEndpoint is defined
 
   try {
     final request = http.MultipartRequest('POST', uri)
@@ -75,7 +75,7 @@ Future<void> updateProduct(
   EditProductModel product, {
   XFile? imageFile,
 }) async {
-  final uri = Uri.parse("$productEndpoint/$id");
+  final uri = Uri.parse("$adminProductsEndpoint/$id");
 
   try {
     final request = http.MultipartRequest('PUT', uri)
@@ -118,7 +118,7 @@ Future<void> updateProduct(
 }
 
 Future<void> deleteProduct(int id) async {
-  final uri = Uri.parse('$productEndpoint/$id');
+  final uri = Uri.parse('$adminProductsEndpoint/$id');
 
   try {
     final response = await http.delete(

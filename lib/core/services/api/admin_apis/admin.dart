@@ -1,9 +1,9 @@
 import "package:admin_pannel/core/const/const.dart";
 import "package:admin_pannel/core/services/models/admin_models/admin_model.dart";
 import "package:admin_pannel/core/services/models/admin_models/admin_resp.dart";
-import "package:admin_pannel/responsive/desktop_layout.dart";
-import "package:admin_pannel/responsive/mobile_layout.dart";
-import "package:admin_pannel/responsive/responsive.dart";
+import "package:admin_pannel/presentation/responsive/desktop_layout.dart";
+import "package:admin_pannel/presentation/responsive/mobile_layout.dart";
+import "package:admin_pannel/presentation/responsive/responsive.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";

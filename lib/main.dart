@@ -1,13 +1,14 @@
-import 'package:admin_pannel/presentation/admins/bloc/admin_bloc.dart';
-import 'package:admin_pannel/presentation/admins/bloc/admin_event.dart';
-import 'package:admin_pannel/presentation/auth/auth_admin.dart';
-import 'package:admin_pannel/presentation/home/bloc/home_bloc.dart';
-import 'package:admin_pannel/presentation/home/bloc/home_event.dart';
-import 'package:admin_pannel/presentation/product/bloc/product_bloc.dart';
-import 'package:admin_pannel/presentation/splash/splash.dart';
-import 'package:admin_pannel/presentation/users/bloc/user_bloc.dart';
-import 'package:admin_pannel/presentation/users/bloc/user_event.dart';
+import 'package:admin_pannel/presentation/pages/admins/bloc/admin_bloc.dart';
+import 'package:admin_pannel/presentation/pages/admins/bloc/admin_event.dart';
+import 'package:admin_pannel/presentation/pages/home/bloc/home_bloc.dart';
+import 'package:admin_pannel/presentation/pages/home/bloc/home_event.dart';
+import 'package:admin_pannel/presentation/pages/product/bloc/product_bloc.dart';
+import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_bloc.dart';
+import 'package:admin_pannel/presentation/pages/splash/splash.dart';
+import 'package:admin_pannel/presentation/pages/users/bloc/user_bloc.dart';
+import 'package:admin_pannel/presentation/pages/users/bloc/user_event.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,6 +45,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<AdminBloc>(
           create: (context) => AdminBloc()..add(FetchAllAdmin()),
+        ),
+        BlocProvider<CategoryBloc>(
+          create: (context) => CategoryBloc()..add(FetchCategories()),
         ),
         // Add more blocs here if needed
       ],

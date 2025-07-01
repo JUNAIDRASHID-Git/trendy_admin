@@ -2,10 +2,12 @@
 
 import 'dart:io' show File;
 
-import 'package:admin_pannel/core/services/models/editproduct_model.dart';
-import 'package:admin_pannel/core/services/models/product_model.dart';
+import 'package:admin_pannel/core/services/api/category/category.dart';
+import 'package:admin_pannel/core/services/models/product/category_model.dart';
+import 'package:admin_pannel/core/services/models/product/editproduct_model.dart';
+import 'package:admin_pannel/core/services/models/product/product_model.dart';
 import 'package:admin_pannel/presentation/pages/product/widgets/textfields/build_text_field.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,6 +34,10 @@ class _EditProductPageState extends State<EditProductPage> {
   final baseCostController = TextEditingController();
   final weightController = TextEditingController();
 
+  // Categories
+  List<CategoryModel> availableCategories = [];
+  final Set<CategoryModel> selectedCategories = {};
+
   @override
   void initState() {
     super.initState();
@@ -43,17 +49,16 @@ class _EditProductPageState extends State<EditProductPage> {
     regularPriceController.text = widget.product.regularPrice.toString();
     baseCostController.text = widget.product.baseCost.toString();
     weightController.text = widget.product.weight.toString();
+    loadCategories();
     selectedCategories.addAll(widget.product.categories);
   }
 
-  // Categories
-  final List<String> availableCategories = [
-    'Snacks',
-    'Drinks',
-    'Groceries',
-    'Electronics',
-  ];
-  final Set<String> selectedCategories = {};
+  Future<void> loadCategories() async {
+    final categories = await getAllCategories();
+    setState(() {
+      availableCategories = categories;
+    });
+  }
 
   XFile? selectedImage;
 
@@ -64,7 +69,7 @@ class _EditProductPageState extends State<EditProductPage> {
 
     final bytes = await image.readAsBytes();
     final decodedImage = await decodeImageFromList(bytes);
-    if (decodedImage.width != 1200 || decodedImage.height != 1200) {
+    if (decodedImage.width > 1500) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Image must be 1200x1200 pixels'),
@@ -197,10 +202,14 @@ class _EditProductPageState extends State<EditProductPage> {
                                         runSpacing: 8,
                                         children:
                                             availableCategories.map((category) {
+                                              final isSelected =
+                                                  selectedCategories.contains(
+                                                    category,
+                                                  );
+
                                               return FilterChip(
-                                                label: Text(category),
-                                                selected: selectedCategories
-                                                    .contains(category),
+                                                label: Text(category.ename),
+                                                selected: isSelected,
                                                 backgroundColor:
                                                     Colors.grey[50],
                                                 selectedColor: Colors.blue[50],
@@ -210,10 +219,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                                       BorderRadius.circular(20),
                                                   side: BorderSide(
                                                     color:
-                                                        selectedCategories
-                                                                .contains(
-                                                                  category,
-                                                                )
+                                                        isSelected
                                                             ? Colors.blue
                                                             : Colors
                                                                 .grey
@@ -379,10 +385,14 @@ class _EditProductPageState extends State<EditProductPage> {
                                         runSpacing: 8,
                                         children:
                                             availableCategories.map((category) {
+                                              final isSelected =
+                                                  selectedCategories.contains(
+                                                    category,
+                                                  );
+
                                               return FilterChip(
-                                                label: Text(category),
-                                                selected: selectedCategories
-                                                    .contains(category),
+                                                label: Text(category.ename),
+                                                selected: isSelected,
                                                 backgroundColor:
                                                     Colors.grey[50],
                                                 selectedColor: Colors.blue[50],
@@ -392,10 +402,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                                       BorderRadius.circular(20),
                                                   side: BorderSide(
                                                     color:
-                                                        selectedCategories
-                                                                .contains(
-                                                                  category,
-                                                                )
+                                                        isSelected
                                                             ? Colors.blue
                                                             : Colors
                                                                 .grey
@@ -451,8 +458,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                               weight: double.parse(
                                                 weightController.text,
                                               ),
-                                              categories:
-                                                  selectedCategories.toList(),
+                                              categories: selectedCategories,
                                               createdAt:
                                                   widget.product.createdAt,
                                               updatedAt: DateTime.now(),

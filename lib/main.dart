@@ -4,11 +4,12 @@ import 'package:admin_pannel/presentation/pages/home/bloc/home_bloc.dart';
 import 'package:admin_pannel/presentation/pages/home/bloc/home_event.dart';
 import 'package:admin_pannel/presentation/pages/product/bloc/product_bloc.dart';
 import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_bloc.dart';
+import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_event.dart';
 import 'package:admin_pannel/presentation/pages/splash/splash.dart';
+import 'package:admin_pannel/presentation/pages/ui/widgets/banner/bloc/banner_bloc.dart';
 import 'package:admin_pannel/presentation/pages/users/bloc/user_bloc.dart';
 import 'package:admin_pannel/presentation/pages/users/bloc/user_event.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<CategoryBloc>(
           create: (context) => CategoryBloc()..add(FetchCategories()),
         ),
+        BlocProvider<BannerBloc>(create: (context) => BannerBloc()),
         // Add more blocs here if needed
       ],
       child: MaterialApp(

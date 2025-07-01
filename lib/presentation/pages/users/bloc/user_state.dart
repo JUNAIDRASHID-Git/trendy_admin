@@ -1,4 +1,4 @@
-import 'package:admin_pannel/core/services/models/user_model.dart';
+import 'package:admin_pannel/core/services/models/user/user_model.dart';
 
 abstract class UserState {}
 

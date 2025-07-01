@@ -11,7 +11,8 @@ class ProductsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ProductBloc()..add(FetchProduct()),
-      child: Scaffold(appBar: appBar(context), body: ProductListView()),
+      child: Scaffold(
+        appBar: appBar(context), body: ProductListView()),
     );
   }
 }

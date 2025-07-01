@@ -1,4 +1,4 @@
-import 'package:admin_pannel/core/services/models/product_model.dart';
+import 'package:admin_pannel/core/services/models/product/product_model.dart';
 import 'package:admin_pannel/core/theme/colors.dart';
 import 'package:admin_pannel/presentation/pages/product/widgets/buttons/action_btn.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +14,10 @@ Expanded productListWidget(
       itemCount: products.length,
       itemBuilder: (context, index) {
         final product = products[index];
+        final categoryNames = product.categories.isNotEmpty
+            ? product.categories.map((e) => e.ename).join(', ')
+            : '—';
+
         return Container(
           color: AppColors.secondary,
           margin: const EdgeInsets.only(bottom: 2),
@@ -48,18 +52,18 @@ Expanded productListWidget(
                         child: Image.network(
                           product.image,
                           fit: BoxFit.cover,
-                          errorBuilder:
-                              (context, error, stackTrace) => Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: const Icon(
-                                  Icons.image_not_supported,
-                                  size: 24,
-                                  color: Colors.grey,
-                                ),
-                              ),
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: const Icon(
+                              Icons.image_not_supported,
+                              size: 24,
+                              color: Colors.grey,
+                            ),
+                          ),
                           loadingBuilder: (context, child, progress) {
                             if (progress == null) return child;
                             return Container(
@@ -91,20 +95,14 @@ Expanded productListWidget(
                 flex: isMobile ? 3 : 2,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        product.eName,
-                        style: TextStyle(
-                          fontSize: isMobile ? 12 : 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ),
-                    ],
+                  child: Text(
+                    product.eName,
+                    style: TextStyle(
+                      fontSize: isMobile ? 12 : 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
                 ),
               ),
@@ -116,9 +114,7 @@ Expanded productListWidget(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
-                      product.categories.isNotEmpty
-                          ? product.categories.join(', ')
-                          : '—',
+                      categoryNames.toUpperCase(),
                       style: TextStyle(
                         fontSize: isMobile ? 11 : 13,
                         color: Colors.grey[600],
@@ -133,7 +129,7 @@ Expanded productListWidget(
               SizedBox(
                 width: availableWidth * (isMobile ? 0.15 : 0.1),
                 child: Text(
-                  '${product.weight} kg',
+                  '${product.stock}',
                   style: TextStyle(
                     fontSize: isMobile ? 11 : 13,
                     fontWeight: FontWeight.w400,

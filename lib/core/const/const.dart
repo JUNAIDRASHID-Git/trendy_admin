@@ -1,24 +1,37 @@
-// const String baseHost = "https://trendyback.onrender.com";
+// base_host.dart
+
+// Replace this with your production backend URL when deployed
 const String baseHost = "http://localhost:8080";
+// const String baseHost = "https://trendybacked.onrender.com";
+
+// ────────────── Authentication ──────────────
 const String googleAdminLoginEndpoint = "$baseHost/auth/google-admin";
 
-// Admin endpoints (require API key)
-const String adminUsersEndpoint = "$baseHost/admin/users";
+// ────────────── Admin Core ──────────────
 const String adminsEndpoint = "$baseHost/admin/admins";
+const String adminUsersEndpoint = "$baseHost/admin/users";
 
-const String adminApproveEndpoint = "$baseHost/admin/approve-admin";
+// ────────────── Admin Management ──────────────
+const String adminManagementEndpoint = "$baseHost/admin/admin-management";
+const String adminPendingAdminsEndpoint = "$adminManagementEndpoint/pending";
+const String adminApproveAdminEndpoint = "$adminManagementEndpoint/approve";
+const String adminRejectAdminEndpoint = "$adminManagementEndpoint/reject";
 
+// ────────────── Product Management ──────────────
 const String adminProductsEndpoint = "$baseHost/admin/products";
-const String adminProductExcelEndpoint =
-    "$baseHost/admin/products/import-excel";
+const String adminProductExcelEndpoint = "$adminProductsEndpoint/import-excel";
+const String adminProductExportExcelEndpoint = "$adminProductsEndpoint/export-excel";
 
-// category endpoints
-const String adminCategoriesEndpoint = "$baseHost/admin/products/category";
+// ────────────── Category Management ──────────────
+const String adminCategoriesEndpoint = "$baseHost/admin/categories";
 
-// admin management endpoints
-const String adminPendingAdminsEndpoint = "$baseHost/admin/pending-admins";
-const String adminApproveAdminEndpoint = "$baseHost/admin/approve-admin";
-const String adminRejectAdminEndpoint = "$baseHost/admin/reject-admin";
+// ────────────── Banner Management ──────────────
+const String adminBannerUploadEndpoint = "$baseHost/admin/banner/upload";
+const String adminBannerListEndpoint = "$baseHost/admin/banner/";
 
-// apikey
+// ────────────── Order Management ──────────────
+
+const String orderEndpoint = "$baseHost/orders/";
+
+// ────────────── API Key ──────────────
 const String apiKey = "trendyMm2030Mm";

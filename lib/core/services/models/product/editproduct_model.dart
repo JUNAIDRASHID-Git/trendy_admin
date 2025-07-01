@@ -1,3 +1,5 @@
+import 'package:admin_pannel/core/services/models/product/category_model.dart';
+
 class EditProductModel {
   final String eName;
   final String? arName;
@@ -7,7 +9,7 @@ class EditProductModel {
   final double regularPrice;
   final double baseCost;
   final double weight;
-  final List<String> categories;
+  final Set<CategoryModel> categories;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -37,7 +39,7 @@ class EditProductModel {
       'regular_price': regularPrice.toString(),
       'base_cost': baseCost.toString(),
       'weight': weight.toString(),
-      'categories': categories.join(','),
+      'category_ids': categories.map((c) => c.id.toString()).join(','),
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };

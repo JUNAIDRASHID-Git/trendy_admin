@@ -1,3 +1,4 @@
+import 'package:admin_pannel/core/services/models/product/category_model.dart';
 
 class ProductModel {
   final int? id;
@@ -10,7 +11,8 @@ class ProductModel {
   final double baseCost;
   final String image;
   final double weight;
-  final List<String> categories;
+  final int stock;
+  final List<CategoryModel> categories;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -25,6 +27,7 @@ class ProductModel {
     required this.baseCost,
     required this.image,
     required this.weight,
+    required this.stock,
     required this.categories,
     required this.createdAt,
     required this.updatedAt,
@@ -42,9 +45,10 @@ class ProductModel {
       baseCost: (json['BaseCost'] as num?)?.toDouble() ?? 0.0,
       image: json['Image'] ?? '',
       weight: (json['Weight'] as num?)?.toDouble() ?? 0.0,
+      stock: (json['Stock']) ?? 0.0,
       categories:
           (json['Categories'] as List<dynamic>?)
-              ?.map((e) => e.toString())
+              ?.map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       createdAt: DateTime.tryParse(json['CreatedAt'] ?? '') ?? DateTime.now(),

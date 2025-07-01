@@ -1,14 +1,15 @@
-part of 'category_bloc.dart';
+
+import 'package:admin_pannel/core/services/models/product/category_model.dart';
 
 class CategoryState {}
 
 final class CategoryInitial extends CategoryState {}
 
-final class CatogoryLoading extends CategoryState {}
+final class CategoryLoading extends CategoryState {}
 
-final class CatogoryLoaded extends CategoryState {
+final class CategoryLoaded extends CategoryState {
   final List<CategoryModel> categories;
-  CatogoryLoaded({required this.categories});
+  CategoryLoaded({required this.categories});
 }
 
 final class CategoryError extends CategoryState {

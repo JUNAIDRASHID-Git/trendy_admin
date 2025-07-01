@@ -4,6 +4,7 @@ import 'package:admin_pannel/presentation/pages/home/home.dart';
 import 'package:admin_pannel/presentation/pages/orders/orders.dart';
 import 'package:admin_pannel/presentation/pages/product/pages/products.dart';
 import 'package:admin_pannel/presentation/pages/settings/settings.dart';
+import 'package:admin_pannel/presentation/pages/ui/pages/ui.dart';
 import 'package:admin_pannel/presentation/pages/users/users.dart';
 import 'package:admin_pannel/presentation/widgets/icons/main_logo.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class _DesktopLayoutState extends State<DesktopLayout> {
 
   final List<Widget> _pages = [
     HomePage(),
+    UiPage(),
     OrdersPage(),
     ProductsPage(),
     UsersPage(),
@@ -38,17 +40,17 @@ class _DesktopLayoutState extends State<DesktopLayout> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: isSelected ? AppColors.primary : Colors.transparent,
+          color: isSelected ? AppColors.secondary : Colors.transparent,
         ),
         child: ListTile(
           leading: Icon(
             icon,
-            color: isSelected ? AppColors.fontWhite : AppColors.fontBlack,
+            color: isSelected ? AppColors.fontBlack : AppColors.fontWhite,
           ),
           title: Text(
             title,
             style: TextStyle(
-              color: isSelected ? AppColors.fontWhite : AppColors.fontBlack,
+              color: isSelected ? AppColors.fontBlack : AppColors.fontWhite,
             ),
           ),
           onTap: () {
@@ -66,14 +68,14 @@ class _DesktopLayoutState extends State<DesktopLayout> {
         children: [
           Container(
             width: 190,
-            color: AppColors.secondary,
+            color: AppColors.primary,
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
                 SizedBox(height: 20),
                 AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: MainLogo(imagePath: "assets/images/trendy_logo.png",)
+                  child: MainLogo(imagePath: "assets/images/trendy_logo.png"),
                 ),
                 SizedBox(height: 20),
                 _buildNavItem(
@@ -81,24 +83,25 @@ class _DesktopLayoutState extends State<DesktopLayout> {
                   icon: Icons.dashboard,
                   title: 'Dashboard',
                 ),
+                _buildNavItem(index: 1, icon: Icons.pages, title: "UI"),
                 _buildNavItem(
-                  index: 1,
+                  index: 2,
                   icon: Icons.receipt_long,
                   title: 'Orders',
                 ),
                 _buildNavItem(
-                  index: 2,
+                  index: 3,
                   icon: Icons.shopping_bag,
                   title: 'Products',
                 ),
-                _buildNavItem(index: 3, icon: Icons.people, title: 'Users'),
+                _buildNavItem(index: 4, icon: Icons.people, title: 'Users'),
                 _buildNavItem(
-                  index: 4,
+                  index: 5,
                   icon: Icons.admin_panel_settings,
                   title: 'Admins',
                 ),
                 _buildNavItem(
-                  index: 5,
+                  index: 6,
                   icon: Icons.settings,
                   title: 'Settings',
                 ),

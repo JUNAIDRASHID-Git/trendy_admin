@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void showDeleteDialog(BuildContext context, dynamic category) {
+void showAppDialog(BuildContext context, dynamic category,Function()action) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -21,11 +21,7 @@ void showDeleteDialog(BuildContext context, dynamic category) {
               child: Text("Cancel", style: TextStyle(color: Colors.grey[600])),
             ),
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                // Implement delete logic here
-                print("Delete category ${category.id}");
-              },
+              onPressed: action,
               child: const Text("Delete", style: TextStyle(color: Colors.red)),
             ),
           ],

@@ -1,4 +1,4 @@
-import 'package:admin_pannel/core/services/models/product_model.dart';
+import 'package:admin_pannel/core/services/models/product/product_model.dart';
 import 'package:admin_pannel/core/theme/colors.dart';
 import 'package:admin_pannel/presentation/pages/product/bloc/product_bloc.dart';
 import 'package:admin_pannel/presentation/pages/product/pages/edit/edit_prodoct.dart';

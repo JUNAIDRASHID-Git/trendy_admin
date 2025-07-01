@@ -1,8 +1,9 @@
 import 'package:admin_pannel/core/theme/colors.dart';
+import 'package:admin_pannel/presentation/pages/product/pages/add/add_product.dart';
 import 'package:admin_pannel/presentation/pages/product/pages/category/category.dart';
-import 'package:admin_pannel/presentation/widgets/buttons/primary.dart';
-import 'package:admin_pannel/presentation/pages/product/widgets/buttons/add_product_btn.dart';
-import 'package:admin_pannel/presentation/pages/product/widgets/buttons/import_product_btn.dart';
+import 'package:admin_pannel/presentation/pages/product/pages/import/import_products.dart';
+import 'package:admin_pannel/presentation/widgets/buttons/secondary.dart';
+import 'package:admin_pannel/presentation/widgets/text/heading_text.dart';
 import 'package:flutter/material.dart';
 
 AppBar appBar(BuildContext context) {
@@ -12,23 +13,42 @@ AppBar appBar(BuildContext context) {
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       side: BorderSide(color: AppColors.primary),
     ),
-    title: Text(
-      "All Products",
-      style: TextStyle(color: AppColors.fontWhite, fontWeight: FontWeight.bold),
-    ),
+    title: headingText("Products",AppColors.fontWhite),
     actions: [
-      primaryBtn(
+      secondaryBtn(
         action: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => CategoryPage()),
           );
         },
+        text: 'Product Category',
+        btnColor: AppColors.blueColor,
       ),
       SizedBox(width: 16),
-      addProductBtn(context),
+      secondaryBtn(
+        action: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddProductPage()),
+          );
+        },
+        icon: Icon(Icons.add, color: AppColors.fontWhite),
+        text: 'New Product',
+        btnColor: AppColors.blueColor,
+      ),
       SizedBox(width: 16),
-      importProductBtn(context),
+      secondaryBtn(
+        action: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ExcelUploadWidget()),
+          );
+        },
+        icon: Icon(Icons.import_export, color: AppColors.fontWhite),
+        text: 'Import',
+        btnColor: AppColors.blueColor,
+      ),
       SizedBox(width: 16),
     ],
   );

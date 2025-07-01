@@ -1,3 +1,4 @@
+import 'package:admin_pannel/core/services/api/excel/excel_export.dart';
 import 'package:admin_pannel/presentation/pages/product/bloc/product_bloc.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class ExcelUploadWidget extends StatelessWidget {
     return BlocConsumer<ProductBloc, ProductState>(
       listener: (context, state) {
         if (state is ExcelUploadSuccess) {
-          _showMessage(context, "Upload successfully", isSuccess: true);
+          _showMessage(context, "Upload successful", isSuccess: true);
         } else if (state is ExcelUploadFailure) {
           _showMessage(
             context,
@@ -34,13 +35,14 @@ class ExcelUploadWidget extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 16),
-              _buildUploadArea(context),
+              _buildUploadArea(context, state),
               const SizedBox(height: 16),
-              if (state is ExcelUploadInProgress)
-                const Padding(
-                  padding: EdgeInsets.only(top: 16),
-                  child: Center(child: CircularProgressIndicator()),
-                ),
+              ElevatedButton(
+                onPressed: () {
+                  downloadExcelFileWeb();
+                },
+                child: const Text("Export Excel"),
+              ),
             ],
           ),
         );
@@ -48,9 +50,11 @@ class ExcelUploadWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildUploadArea(BuildContext context) {
+  Widget _buildUploadArea(BuildContext context, ProductState state) {
+    final isUploading = state is ExcelUploadInProgress;
+
     return GestureDetector(
-      onTap: () => _pickExcelFile(context),
+      onTap: isUploading ? null : () => _pickExcelFile(context),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
@@ -68,9 +72,16 @@ class ExcelUploadWidget extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Click to select Excel file (.xlsx)',
+              isUploading
+                  ? 'Uploading...'
+                  : 'Click to select Excel file (.xlsx)',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
+            if (isUploading)
+              const Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: CircularProgressIndicator(),
+              ),
           ],
         ),
       ),
@@ -78,11 +89,15 @@ class ExcelUploadWidget extends StatelessWidget {
   }
 
   void _showMessage(
-    BuildContext context,
-    String message, {
-    required bool isSuccess,
-  }) {
-    ScaffoldMessenger.of(context).showSnackBar(
+  BuildContext context,
+  String message, {
+  required bool isSuccess,
+}) {
+  Future.microtask(() {
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.clearSnackBars(); // Optional: clear existing messages
+
+    messenger.showSnackBar(
       SnackBar(
         content: Row(
           children: [
@@ -94,16 +109,19 @@ class ExcelUploadWidget extends StatelessWidget {
             Expanded(child: Text(message)),
           ],
         ),
-        backgroundColor:
-            isSuccess
-                ? Colors.green.withOpacity(0.1)
-                : Colors.red.withOpacity(0.1),
+        backgroundColor: isSuccess
+            ? Colors.green.withOpacity(0.1)
+            : Colors.red.withOpacity(0.1),
         behavior: SnackBarBehavior.floating,
       ),
     );
-  }
+  });
+}
+
 
   void _pickExcelFile(BuildContext context) async {
+    final bloc = context.read<ProductBloc>(); // capture before async
+
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['xlsx'],
@@ -113,8 +131,13 @@ class ExcelUploadWidget extends StatelessWidget {
     if (result == null || result.files.isEmpty) return;
 
     final file = result.files.first;
-    context.read<ProductBloc>().add(
-      UploadExcelFileEvent(fileName: file.name, excelBytes: file.bytes!),
-    );
+
+    if (file.bytes != null) {
+      bloc.add(
+        UploadExcelFileEvent(fileName: file.name, excelBytes: file.bytes!),
+      );
+    } else {
+      _showMessage(context, "File content is empty", isSuccess: false);
+    }
   }
 }

@@ -1,9 +1,11 @@
-import 'package:admin_pannel/core/services/api/product/category/category.dart';
 import 'package:admin_pannel/core/theme/colors.dart';
 import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_bloc.dart';
+import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_event.dart';
+import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_state.dart';
 import 'package:admin_pannel/presentation/pages/product/pages/category/widgets/dialogs.dart';
 import 'package:admin_pannel/presentation/widgets/buttons/delete.dart';
 import 'package:admin_pannel/presentation/widgets/buttons/edit.dart';
+import 'package:admin_pannel/presentation/widgets/dialogs/form_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,7 +14,7 @@ BlocProvider<CategoryBloc> catogoryList() {
     create: (_) => CategoryBloc()..add(FetchCategories()),
     child: BlocBuilder<CategoryBloc, CategoryState>(
       builder: (context, state) {
-        if (state is CategoryInitial || state is CatogoryLoading) {
+        if (state is CategoryInitial || state is CategoryLoading) {
           return const Center(child: CircularProgressIndicator(strokeWidth: 2));
         } else if (state is CategoryError) {
           return Center(
@@ -29,7 +31,7 @@ BlocProvider<CategoryBloc> catogoryList() {
               ],
             ),
           );
-        } else if (state is CatogoryLoaded) {
+        } else if (state is CategoryLoaded) {
           final categories = state.categories;
 
           if (categories.isEmpty) {
@@ -109,19 +111,7 @@ BlocProvider<CategoryBloc> catogoryList() {
                         ),
                       ),
                       Expanded(
-                        flex: 2,
-                        child: Text(
-                          "Products",
-                          style: TextStyle(
-                            color: AppColors.fontWhite,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: Text(
                           "Actions",
                           style: TextStyle(
@@ -189,7 +179,7 @@ BlocProvider<CategoryBloc> catogoryList() {
                               Expanded(
                                 flex: 3,
                                 child: Text(
-                                  category.name,
+                                  category.ename,
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
@@ -198,48 +188,44 @@ BlocProvider<CategoryBloc> catogoryList() {
                                 ),
                               ),
 
-                              // Products Count
-                              Expanded(
-                                flex: 2,
-                                child: Center(
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 6,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primary.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Text(
-                                      category.products.length.toString(),
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.primary,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-
                               // Actions
                               Expanded(
-                                flex: 2,
+                                flex: 3,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     editBtn(
                                       action: () {
-                                        // Edit category logic
-                                        print("Edit category ${category.id}");
+                                        formDialog(
+                                          context,
+                                          initialValue: {
+                                            'en': category.ename,
+                                            'ar': category.arname,
+                                          },
+                                          title: "Edit Category",
+                                          onSave: (value) {
+                                            context.read<CategoryBloc>().add(
+                                              UpdateCategory(
+                                                id: category.id,
+                                                ename: value['en'] ?? '',
+                                                arname: value['ar'] ?? '',
+                                              ),
+                                            );
+                                          },
+                                        );
                                       },
                                     ),
                                     const SizedBox(width: 12),
                                     deleteBtn(
                                       action: () {
-                                        deleteCategory(category.id);
-                                        showDeleteDialog(context, category);
+                                        showAppDialog(context, category, () {
+                                          context.read<CategoryBloc>().add(
+                                            DeleteCategory(
+                                              categoryId: category.id,
+                                            ),
+                                          );
+                                          Navigator.pop(context);
+                                        });
                                       },
                                     ),
                                   ],

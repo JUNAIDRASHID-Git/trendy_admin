@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:admin_pannel/core/const/const.dart';
-import 'package:admin_pannel/core/services/models/add_product_model.dart';
-import 'package:admin_pannel/core/services/models/editproduct_model.dart';
-import 'package:admin_pannel/core/services/models/product_model.dart';
+import 'package:admin_pannel/core/services/models/product/add_product_model.dart';
+import 'package:admin_pannel/core/services/models/product/editproduct_model.dart';
+import 'package:admin_pannel/core/services/models/product/product_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
@@ -24,7 +24,7 @@ Future<List<ProductModel>> fetchAllProducts() async {
       log("Products data fetched");
       final List<dynamic> jsonData = json.decode(response.body);
       final products = jsonData.map((e) => ProductModel.fromJson(e)).toList();
-      return products.reversed.toList();
+      return products.toList();
     } else {
       throw Exception("failed to fetch the product");
     }
@@ -98,6 +98,7 @@ Future<void> updateProduct(
 
     // Convert the product fields to a map of form fields
     final fields = product.toJson();
+    print(fields);
     fields.forEach((key, value) {
       request.fields[key] = value.toString();
     });

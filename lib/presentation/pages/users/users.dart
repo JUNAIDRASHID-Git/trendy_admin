@@ -52,7 +52,7 @@ class UsersPage extends StatelessWidget {
                                   backgroundColor: Colors.grey[200],
                                   child: ClipOval(
                                     child: Image.network(
-                                      user.picture,
+                                      user.picture ?? '',
                                       width: 40,
                                       height: 40,
                                       fit: BoxFit.cover,
@@ -81,8 +81,8 @@ class UsersPage extends StatelessWidget {
                               ),
                               DataCell(Text(user.name)),
                               DataCell(Text(user.phone)),
-                              DataCell(Text(user.email)),
-                              DataCell(Text(user.provider)),
+                              DataCell(Text(user.email ?? '')),
+                              DataCell(Text(user.provider ?? '')),
                             ],
                           );
                         }),

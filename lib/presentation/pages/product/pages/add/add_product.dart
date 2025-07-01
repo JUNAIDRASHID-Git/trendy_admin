@@ -1,11 +1,13 @@
 import 'dart:io' show File;
-import 'package:admin_pannel/core/services/models/add_product_model.dart';
+import 'package:admin_pannel/core/services/api/category/category.dart';
+import 'package:admin_pannel/core/services/models/product/add_product_model.dart';
+import 'package:admin_pannel/core/services/models/product/category_model.dart';
 import 'package:admin_pannel/core/theme/colors.dart';
 import 'package:admin_pannel/presentation/pages/product/bloc/product_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AddProductPage extends StatefulWidget {
   const AddProductPage({super.key});
@@ -27,13 +29,22 @@ class _AddProductPageState extends State<AddProductPage> {
   final weightController = TextEditingController();
 
   // Categories
-  final List<String> availableCategories = [
-    'Snacks',
-    'Drinks',
-    'Groceries',
-    'Electronics',
-  ];
-  final Set<String> selectedCategories = {};
+  List<CategoryModel> availableCategories = [];
+  final Set<CategoryModel> selectedCategories = {};
+
+  @override
+  void initState() {
+    super.initState();
+    loadCategories();
+  }
+
+  Future<void> loadCategories() async {
+    final categories = await getAllCategories();
+    setState(() {
+      availableCategories = categories;
+    });
+  }
+
 
   XFile? selectedImage;
   bool isImageRequired = true;
@@ -45,7 +56,7 @@ class _AddProductPageState extends State<AddProductPage> {
 
     final bytes = await image.readAsBytes();
     final decodedImage = await decodeImageFromList(bytes);
-    if (decodedImage.width != 1200 || decodedImage.height != 1200) {
+    if (decodedImage.width != 1500 || decodedImage.height != 1500) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Image must be 1200x1200 pixels'),
@@ -58,6 +69,8 @@ class _AddProductPageState extends State<AddProductPage> {
       });
     }
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +213,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                         children:
                                             availableCategories.map((category) {
                                               return FilterChip(
-                                                label: Text(category),
+                                                label: Text(category.ename),
                                                 selected: selectedCategories
                                                     .contains(category),
                                                 backgroundColor:
@@ -382,7 +395,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                         children:
                                             availableCategories.map((category) {
                                               return FilterChip(
-                                                label: Text(category),
+                                                label: Text(category.ename),
                                                 selected: selectedCategories
                                                     .contains(category),
                                                 backgroundColor:
@@ -460,8 +473,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                                     weightController.text,
                                                   ) ??
                                                   0,
-                                              categories:
-                                                  selectedCategories.toList(),
+                                              categories: selectedCategories,
                                               image: XFile(selectedImage!.path),
                                               createdAt: DateTime.now(),
                                               updatedAt: DateTime.now(),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:admin_pannel/core/const/const.dart';
-import 'package:admin_pannel/core/services/models/user_model.dart';
+import 'package:admin_pannel/core/services/models/user/user_model.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<UserModel>> fetchAllUsers() async {

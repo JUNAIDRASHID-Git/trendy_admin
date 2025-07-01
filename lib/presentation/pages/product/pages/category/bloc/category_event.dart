@@ -1,19 +1,20 @@
-part of 'category_bloc.dart';
-
 class CategoryEvent {}
 
 class FetchCategories extends CategoryEvent {}
 
 class CreateCategory extends CategoryEvent {
-  final CategoryModel category;
+  final String ename;
+  final String arname;
 
-  CreateCategory({required this.category});
+  CreateCategory({required this.ename,required this.arname});
 }
 
 class UpdateCategory extends CategoryEvent {
-  final CategoryModel category;
+  final int id;
+  final String ename;
+  final String arname;
 
-  UpdateCategory({required this.category});
+  UpdateCategory({required this.id, required this.ename,required this.arname});
 }
 
 class DeleteCategory extends CategoryEvent {

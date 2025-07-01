@@ -1,3 +1,4 @@
+import 'package:admin_pannel/core/services/models/product/category_model.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddProductModel {
@@ -11,7 +12,7 @@ class AddProductModel {
   final double baseCost;
   final XFile image;
   final double weight;
-  final List<String> categories;
+  final Set<CategoryModel> categories;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -43,7 +44,7 @@ class AddProductModel {
       'regular_price': regularPrice.toString(),
       'base_cost': baseCost.toString(),
       'weight': weight.toString(),
-      'categories': categories.join(','),
+      'category_ids': categories.map((c) => c.id.toString()).join(','),
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };

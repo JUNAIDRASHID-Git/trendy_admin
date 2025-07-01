@@ -5,4 +5,5 @@ class AppColors {
   static Color secondary = const Color.fromARGB(255, 255, 255, 255);
   static Color fontBlack = Colors.black;
   static Color fontWhite = Colors.white;
+  static Color blueColor = Colors.blue.shade400;
 }

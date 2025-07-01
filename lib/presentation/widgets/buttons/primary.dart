@@ -1,7 +1,7 @@
 import 'package:admin_pannel/core/theme/colors.dart';
 import 'package:flutter/material.dart';
 
-InkWell primaryBtn({required Function()? action}) {
+InkWell primaryBtn({required Function()? action, required String text}) {
   return InkWell(
     onTap: action,
     borderRadius: BorderRadius.circular(12),
@@ -24,7 +24,7 @@ InkWell primaryBtn({required Function()? action}) {
           Icon(Icons.add, color: AppColors.fontWhite, size: 20),
           const SizedBox(width: 8),
           Text(
-            "New Category",
+            text,
             style: TextStyle(
               color: AppColors.fontWhite,
               fontWeight: FontWeight.w500,

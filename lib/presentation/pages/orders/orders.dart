@@ -3,22 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:admin_pannel/presentation/pages/orders/bloc/order_bloc.dart';
 
-class OrdersPage extends StatefulWidget {
-  const OrdersPage({super.key});
+class OrdersPage extends StatelessWidget {
+  OrdersPage({super.key});
 
-  @override
-  State<OrdersPage> createState() => _OrdersPageState();
-}
-
-class _OrdersPageState extends State<OrdersPage>
-    with SingleTickerProviderStateMixin {
-  String _searchQuery = '';
-  String _statusFilter = 'all';
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  final ValueNotifier<String> _searchQuery = ValueNotifier('');
+  final ValueNotifier<String> _statusFilter = ValueNotifier('all');
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +17,7 @@ class _OrdersPageState extends State<OrdersPage>
         create: (context) => OrderBloc()..add(FetchOrdersEvent()),
         child: Column(
           children: [
-            _buildHeader(),
+            _buildHeader(context),
             _buildFilters(),
             Expanded(child: _buildOrdersList()),
           ],
@@ -37,7 +26,7 @@ class _OrdersPageState extends State<OrdersPage>
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
@@ -67,33 +56,54 @@ class _OrdersPageState extends State<OrdersPage>
       child: Row(
         children: [
           Expanded(
-            child: TextField(
-              onChanged: (value) => setState(() => _searchQuery = value),
-              decoration: InputDecoration(
-                hintText: 'Search orders...',
-                prefixIcon: const Icon(Icons.search, size: 20),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-              ),
+            child: ValueListenableBuilder<String>(
+              valueListenable: _searchQuery,
+              builder: (context, value, _) {
+                return TextField(
+                  onChanged: (val) => _searchQuery.value = val,
+                  decoration: InputDecoration(
+                    hintText: 'Search orders...',
+                    prefixIcon: const Icon(Icons.search, size: 20),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           const SizedBox(width: 16),
-          DropdownButton<String>(
-            value: _statusFilter,
-            onChanged: (value) => setState(() => _statusFilter = value!),
-            items: const [
-              DropdownMenuItem(value: 'all', child: Text('All Status')),
-              DropdownMenuItem(value: 'pending', child: Text('Pending')),
-              DropdownMenuItem(value: 'confirmed', child: Text('Confirmed')),
-              DropdownMenuItem(value: 'shipped', child: Text('Shipped')),
-              DropdownMenuItem(value: 'delivered', child: Text('Delivered')),
-              DropdownMenuItem(value: 'cancelled', child: Text('Cancelled')),
-            ],
+          ValueListenableBuilder<String>(
+            valueListenable: _statusFilter,
+            builder: (context, value, _) {
+              return DropdownButton<String>(
+                value: value,
+                onChanged: (val) {
+                  if (val != null) _statusFilter.value = val;
+                },
+                items: const [
+                  DropdownMenuItem(value: 'all', child: Text('All Status')),
+                  DropdownMenuItem(value: 'pending', child: Text('Pending')),
+                  DropdownMenuItem(
+                    value: 'confirmed',
+                    child: Text('Confirmed'),
+                  ),
+                  DropdownMenuItem(value: 'shipped', child: Text('Shipped')),
+                  DropdownMenuItem(
+                    value: 'delivered',
+                    child: Text('Delivered'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'cancelled',
+                    child: Text('Cancelled'),
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
@@ -103,34 +113,47 @@ class _OrdersPageState extends State<OrdersPage>
   Widget _buildOrdersList() {
     return BlocBuilder<OrderBloc, OrderState>(
       builder: (context, state) {
-        if (state is OrderLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is OrderError) {
-          return Center(
-            child: Text(state.error, style: const TextStyle(color: Colors.red)),
-          );
-        } else if (state is OrderLoaded) {
-          final filteredOrders =
-              state.orders.where((order) {
-                final matchesSearch =
-                    order.id.toString().contains(_searchQuery) ||
-                    order.user.name.toLowerCase().contains(
-                      _searchQuery.toLowerCase(),
-                    );
-                final matchesStatus =
-                    _statusFilter == 'all' || order.status == _statusFilter;
-                return matchesSearch && matchesStatus;
-              }).toList();
+        return ValueListenableBuilder<String>(
+          valueListenable: _searchQuery,
+          builder: (context, query, _) {
+            return ValueListenableBuilder<String>(
+              valueListenable: _statusFilter,
+              builder: (context, status, _) {
+                if (state is OrderLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is OrderError) {
+                  return Center(
+                    child: Text(
+                      state.error,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  );
+                } else if (state is OrderLoaded) {
+                  final filteredOrders =
+                      state.orders.where((order) {
+                        final matchesSearch =
+                            order.id.toString().contains(query) ||
+                            order.user.name.toLowerCase().contains(
+                              query.toLowerCase(),
+                            );
+                        final matchesStatus =
+                            status == 'all' || order.status == status;
+                        return matchesSearch && matchesStatus;
+                      }).toList();
 
-          return ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: filteredOrders.length,
-            itemBuilder:
-                (context, index) =>
-                    buildOrderCard(filteredOrders[index], context),
-          );
-        }
-        return const SizedBox.shrink();
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: filteredOrders.length,
+                    itemBuilder:
+                        (context, index) =>
+                            buildOrderCard(filteredOrders[index], context),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            );
+          },
+        );
       },
     );
   }

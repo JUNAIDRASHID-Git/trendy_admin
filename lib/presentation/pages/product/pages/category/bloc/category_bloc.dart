@@ -35,6 +35,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     });
 
     on<DeleteCategory>((event, emit) async {
+      emit(CategoryLoading());
       try {
         await deleteCategory(event.categoryId);
         add(FetchCategories());

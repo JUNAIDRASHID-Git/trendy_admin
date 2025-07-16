@@ -1,7 +1,8 @@
 // base_host.dart
 
 // Replace this with your production backend URL when deployed
-const String baseHost = "http://localhost:8080";
+// const String baseHost = "http://localhost:8080";
+const baseHost = "https://trendybacked-5p38.onrender.com";
 // const String baseHost = "https://trendybacked.onrender.com";
 
 // ────────────── Authentication ──────────────
@@ -20,7 +21,8 @@ const String adminRejectAdminEndpoint = "$adminManagementEndpoint/reject";
 // ────────────── Product Management ──────────────
 const String adminProductsEndpoint = "$baseHost/admin/products";
 const String adminProductExcelEndpoint = "$adminProductsEndpoint/import-excel";
-const String adminProductExportExcelEndpoint = "$adminProductsEndpoint/export-excel";
+const String adminProductExportExcelEndpoint =
+    "$adminProductsEndpoint/export-excel";
 
 // ────────────── Category Management ──────────────
 const String adminCategoriesEndpoint = "$baseHost/admin/categories";

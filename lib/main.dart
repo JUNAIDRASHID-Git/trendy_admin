@@ -1,3 +1,4 @@
+import 'package:admin_pannel/core/services/api/order/order_websocket_service.dart';
 import 'package:admin_pannel/presentation/pages/admins/bloc/admin_bloc.dart';
 import 'package:admin_pannel/presentation/pages/admins/bloc/admin_event.dart';
 import 'package:admin_pannel/presentation/pages/home/bloc/home_bloc.dart';
@@ -13,18 +14,27 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: "AIzaSyBbZSwAKla4HLoCapMPrg5ShlQHWYgFf6g",
-      authDomain: "trendy-admin-83285.firebaseapp.com",
-      projectId: "trendy-admin-83285",
-      storageBucket: "trendy-admin-83285.appspot.com",
-      messagingSenderId: "846595955923",
-      appId: "1:846595955923:web:861e196aade97c04a70826",
+      apiKey: "AIzaSyCgzDBi6Do4qgGBg_O5QHznEEvrqi_tES0",
+      authDomain: "trendy-chef-63c6d.firebaseapp.com",
+      projectId: "trendy-chef-63c6d",
+      storageBucket: "trendy-chef-63c6d.firebasestorage.app",
+      messagingSenderId: "524030203276",
+      appId: "1:524030203276:web:e70e7d7dd546665460b2a9",
+      measurementId: "G-G2YJW5LF4G",
     ),
   );
+
+  OrderAlertService().start(
+    "wss://trendybacked-5p38.onrender.com/orders/ws/orders",
+    navigatorKey,
+  );
+
   runApp(const MyApp());
 }
 
@@ -55,6 +65,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        navigatorKey: navigatorKey,
         title: 'Flutter Demo',
         home: SplashPage(),
       ),

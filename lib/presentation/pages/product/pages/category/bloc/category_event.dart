@@ -19,6 +19,5 @@ class UpdateCategory extends CategoryEvent {
 
 class DeleteCategory extends CategoryEvent {
   final int categoryId;
-
   DeleteCategory({required this.categoryId});
 }

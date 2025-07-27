@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:admin_pannel/core/theme/colors.dart';
 import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_bloc.dart';

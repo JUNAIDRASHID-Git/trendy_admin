@@ -56,7 +56,7 @@ class _AddProductPageState extends State<AddProductPage> {
 
     final bytes = await image.readAsBytes();
     final decodedImage = await decodeImageFromList(bytes);
-    if (decodedImage.width != 1500 || decodedImage.height != 1500) {
+    if (decodedImage.width != 1200 || decodedImage.height != 1200) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Image must be 1200x1200 pixels'),

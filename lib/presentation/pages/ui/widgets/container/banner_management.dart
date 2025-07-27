@@ -1,10 +1,8 @@
-import 'package:admin_pannel/presentation/pages/ui/bloc/ui_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:admin_pannel/core/services/models/banner/banner.dart';
 import 'package:admin_pannel/presentation/pages/ui/widgets/banner/upload_banner.dart';
 import 'package:admin_pannel/presentation/pages/ui/widgets/container/banner_list.dart';
 import 'package:admin_pannel/core/theme/colors.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BannerManagement extends StatefulWidget {
   final List<BannerModel> banners;

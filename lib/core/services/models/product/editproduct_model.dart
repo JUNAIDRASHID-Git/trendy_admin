@@ -9,6 +9,7 @@ class EditProductModel {
   final double regularPrice;
   final double baseCost;
   final double weight;
+  final int stock;
   final Set<CategoryModel> categories;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -22,6 +23,7 @@ class EditProductModel {
     required this.regularPrice,
     required this.baseCost,
     required this.weight,
+    required this.stock,
     required this.categories,
     required this.createdAt,
     required this.updatedAt,
@@ -29,7 +31,7 @@ class EditProductModel {
 
   /// Converts all fields except the image (XFile) to a JSON map.
   /// Use this when sending multipart/form-data, and attach the image separately.
-  Map<String, String> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'ename': eName,
       if (arName != null) 'arname': arName!,
@@ -39,6 +41,7 @@ class EditProductModel {
       'regular_price': regularPrice.toString(),
       'base_cost': baseCost.toString(),
       'weight': weight.toString(),
+      "stock": stock,
       'category_ids': categories.map((c) => c.id.toString()).join(','),
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),

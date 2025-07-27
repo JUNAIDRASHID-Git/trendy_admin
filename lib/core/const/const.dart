@@ -34,6 +34,9 @@ const String adminBannerListEndpoint = "$baseHost/admin/banner/";
 // ────────────── Order Management ──────────────
 
 const String orderEndpoint = "$baseHost/orders/";
+// ────────────── user cart view ──────────────
+
+const String userCartEndpoint = "$baseHost/admin/user-cart/";
 
 // ────────────── API Key ──────────────
 const String apiKey = "trendyMm2030Mm";

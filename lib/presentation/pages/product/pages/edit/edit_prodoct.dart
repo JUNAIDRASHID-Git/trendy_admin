@@ -32,6 +32,7 @@ class _EditProductPageState extends State<EditProductPage> {
   final salePriceController = TextEditingController();
   final regularPriceController = TextEditingController();
   final baseCostController = TextEditingController();
+  final stockController = TextEditingController();
   final weightController = TextEditingController();
 
   // Categories
@@ -366,6 +367,24 @@ class _EditProductPageState extends State<EditProductPage> {
                                     ),
                                   ],
                                 ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: buildTextField(
+                                        controller: stockController,
+                                        label: 'Stock Quantity',
+                                        keyboardType:
+                                            const TextInputType.numberWithOptions(
+                                              decimal: true,
+                                            ),
+                                        prefixIcon: const Icon(
+                                          Icons.warehouse,
+                                          size: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                                 if (!isWide)
                                   Column(
                                     crossAxisAlignment:
@@ -457,6 +476,9 @@ class _EditProductPageState extends State<EditProductPage> {
                                               ),
                                               weight: double.parse(
                                                 weightController.text,
+                                              ),
+                                              stock: int.parse(
+                                                stockController.text,
                                               ),
                                               categories: selectedCategories,
                                               createdAt:

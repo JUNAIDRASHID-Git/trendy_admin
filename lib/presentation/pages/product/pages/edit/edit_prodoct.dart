@@ -50,6 +50,7 @@ class _EditProductPageState extends State<EditProductPage> {
     regularPriceController.text = widget.product.regularPrice.toString();
     baseCostController.text = widget.product.baseCost.toString();
     weightController.text = widget.product.weight.toString();
+    stockController.text = widget.product.stock.toString();
     loadCategories();
     selectedCategories.addAll(widget.product.categories);
   }
@@ -453,6 +454,40 @@ class _EditProductPageState extends State<EditProductPage> {
                                   child: ElevatedButton(
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
+                                        final salePrice = double.tryParse(
+                                          salePriceController.text,
+                                        );
+                                        final regularPrice = double.tryParse(
+                                          regularPriceController.text,
+                                        );
+                                        final baseCost = double.tryParse(
+                                          baseCostController.text,
+                                        );
+                                        final weight = double.tryParse(
+                                          weightController.text,
+                                        );
+                                        final stock = int.tryParse(
+                                          stockController.text,
+                                        );
+
+                                        if (salePrice == null ||
+                                            regularPrice == null ||
+                                            baseCost == null ||
+                                            weight == null ||
+                                            stock == null) {
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Please enter valid numbers.',
+                                              ),
+                                              backgroundColor: Colors.red,
+                                            ),
+                                          );
+                                          return;
+                                        }
+
                                         context.read<ProductBloc>().add(
                                           ProductUpdateEvent(
                                             int.parse(
@@ -465,21 +500,11 @@ class _EditProductPageState extends State<EditProductPage> {
                                                   descriptionENController.text,
                                               arDescription:
                                                   descriptionARController.text,
-                                              salePrice: double.parse(
-                                                salePriceController.text,
-                                              ),
-                                              regularPrice: double.parse(
-                                                regularPriceController.text,
-                                              ),
-                                              baseCost: double.parse(
-                                                baseCostController.text,
-                                              ),
-                                              weight: double.parse(
-                                                weightController.text,
-                                              ),
-                                              stock: int.parse(
-                                                stockController.text,
-                                              ),
+                                              salePrice: salePrice,
+                                              regularPrice: regularPrice,
+                                              baseCost: baseCost,
+                                              weight: weight,
+                                              stock: stock,
                                               categories: selectedCategories,
                                               createdAt:
                                                   widget.product.createdAt,
@@ -491,7 +516,6 @@ class _EditProductPageState extends State<EditProductPage> {
 
                                         Navigator.pop(context);
 
-                                        // Submit logic here
                                         ScaffoldMessenger.of(
                                           context,
                                         ).showSnackBar(
@@ -504,6 +528,7 @@ class _EditProductPageState extends State<EditProductPage> {
                                         );
                                       }
                                     },
+
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: AppColors.primary,
                                       shape: RoundedRectangleBorder(

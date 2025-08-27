@@ -2,7 +2,8 @@
 
 // Replace this with your production backend URL when deployed
 // const String baseHost = "http://localhost:8080";
-const baseHost = "https://trendybacked-5p38.onrender.com";
+// const baseHost = "https://trendybacked-5p38.onrender.com";
+const baseHost = "https://api.trendy-c.com";
 // const String baseHost = "https://trendybacked.onrender.com";
 
 // ────────────── Authentication ──────────────

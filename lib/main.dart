@@ -31,7 +31,7 @@ void main() async {
   );
 
   OrderAlertService().start(
-    "wss://trendybacked-5p38.onrender.com/orders/ws/orders",
+    "wss://api.trendy-c.com/orders/ws/orders",
     navigatorKey,
   );
 

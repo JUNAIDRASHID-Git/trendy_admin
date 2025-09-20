@@ -1,21 +1,33 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// order_state.dart
 part of 'order_bloc.dart';
 
-class OrderState {}
+abstract class OrderState {
+  const OrderState();
 
-class OrderInitial extends OrderState {}
+  @override
+  List<Object?> get props => [];
+}
 
-class OrderLoading extends OrderState {}
+class OrderInitial extends OrderState {
+  const OrderInitial();
+}
+
+class OrderLoading extends OrderState {
+  const OrderLoading();
+}
 
 class OrderLoaded extends OrderState {
-  List<OrderModel> orders;
-  OrderLoaded({required this.orders});
+  final List<OrderModel> orders;
+  const OrderLoaded({required this.orders});
+
+  @override
+  List<Object?> get props => [orders];
 }
 
 class OrderError extends OrderState {
-  String error;
-  OrderError({
-    required this.error,
-  });
-  
+  final String error;
+  const OrderError({required this.error});
+
+  @override
+  List<Object?> get props => [error];
 }

@@ -3,13 +3,12 @@ import 'package:http/http.dart' as http;
 import 'package:admin_pannel/core/const/const.dart';
 
 Future<void> deleteBanner({required int bannerID}) async {
-  final uri = Uri.parse("$baseHost/admin/banner/");
+  final uri = Uri.parse("$baseHost/admin/banner/$bannerID");
 
   try {
     final response = await http.delete(
       uri,
       headers: {'Content-Type': 'application/json', 'X-API-KEY': apiKey},
-      body: jsonEncode({"ID": bannerID}),
     );
 
     if (response.statusCode == 200) {

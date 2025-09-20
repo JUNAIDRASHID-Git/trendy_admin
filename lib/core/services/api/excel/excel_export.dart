@@ -1,4 +1,5 @@
 import 'dart:html' as html; // <-- This works only on web
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:admin_pannel/core/const/const.dart';
 
@@ -22,11 +23,17 @@ Future<void> downloadExcelFileWeb() async {
         ..click();
       html.Url.revokeObjectUrl(url);
 
-      print('✅ Excel file download triggered in browser');
+      if (kDebugMode) {
+        print('✅ Excel file download triggered in browser');
+      }
     } else {
-      print('❌ Failed to download file. Status: ${response.statusCode}');
+      if (kDebugMode) {
+        print('❌ Failed to download file. Status: ${response.statusCode}');
+      }
     }
   } catch (e) {
-    print('❌ Error downloading Excel file on web: $e');
+    if (kDebugMode) {
+      print('❌ Error downloading Excel file on web: $e');
+    }
   }
 }

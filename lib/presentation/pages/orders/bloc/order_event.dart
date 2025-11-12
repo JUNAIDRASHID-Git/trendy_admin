@@ -4,7 +4,6 @@ part of 'order_bloc.dart';
 abstract class OrderEvent {
   const OrderEvent();
 
-  @override
   List<Object?> get props => [];
 }
 
@@ -31,18 +30,6 @@ class EditOrderPaymentStatusEvent extends OrderEvent {
 
   @override
   List<Object?> get props => [orderID, paymentStatus];
-}
-
-class EditOrderShippingCostEvent extends OrderEvent {
-  final int orderID;
-  final double shippingCost;
-  const EditOrderShippingCostEvent({
-    required this.orderID,
-    required this.shippingCost,
-  });
-
-  @override
-  List<Object?> get props => [orderID, shippingCost];
 }
 
 class DeleteOrderEvent extends OrderEvent {

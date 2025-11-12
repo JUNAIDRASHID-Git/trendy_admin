@@ -1,3 +1,4 @@
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html; // <-- This works only on web
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -11,16 +12,19 @@ Future<void> downloadExcelFileWeb() async {
       url,
       headers: {
         'X-API-KEY': apiKey,
-        'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'Accept':
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       },
     );
 
     if (response.statusCode == 200) {
       final blob = html.Blob([response.bodyBytes]);
       final url = html.Url.createObjectUrlFromBlob(blob);
-      final anchor = html.AnchorElement(href: url)
-        ..setAttribute("download", "products.xlsx")
-        ..click();
+      // ignore: unused_local_variable
+      final anchor =
+          html.AnchorElement(href: url)
+            ..setAttribute("download", "products.xlsx")
+            ..click();
       html.Url.revokeObjectUrl(url);
 
       if (kDebugMode) {

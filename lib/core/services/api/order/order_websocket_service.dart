@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart' as status;
@@ -25,7 +26,9 @@ class OrderAlertService {
     try {
       _channel = WebSocketChannel.connect(Uri.parse(socketUrl));
       _connected = true;
-      print('🟢 WebSocket connected: $socketUrl');
+      if (kDebugMode) {
+        print('🟢 WebSocket connected: $socketUrl');
+      }
 
       _channel.stream.listen(
         (message) {
@@ -34,29 +37,41 @@ class OrderAlertService {
             final order = OrderModel.fromJson(json);
             _playSound();
             _showOrderDialog(order);
-            print('🔔 New order received: ${order.id}');
+            if (kDebugMode) {
+              print('🔔 New order received: ${order.id}');
+            }
           } catch (e) {
-            print('⚠️ Error decoding order: $e');
+            if (kDebugMode) {
+              print('⚠️ Error decoding order: $e');
+            }
           }
         },
         onDone: () {
-          print('🔌 WebSocket closed');
+          if (kDebugMode) {
+            print('🔌 WebSocket closed');
+          }
           _reconnect(socketUrl);
         },
         onError: (error) {
-          print('❌ WebSocket error: $error');
+          if (kDebugMode) {
+            print('❌ WebSocket error: $error');
+          }
           _reconnect(socketUrl);
         },
       );
     } catch (e) {
-      print('🚫 Failed to connect to WebSocket: $e');
+      if (kDebugMode) {
+        print('🚫 Failed to connect to WebSocket: $e');
+      }
     }
   }
 
   void _reconnect(String socketUrl) async {
     _connected = false;
     await Future.delayed(const Duration(seconds: 5));
-    print('🔁 Reconnecting to WebSocket...');
+    if (kDebugMode) {
+      print('🔁 Reconnecting to WebSocket...');
+    }
     start(socketUrl, _navigatorKey);
   }
 
@@ -71,7 +86,9 @@ class OrderAlertService {
         _player.setReleaseMode(ReleaseMode.release);
       });
     } catch (e) {
-      print('🎵 Failed to play sound: $e');
+      if (kDebugMode) {
+        print('🎵 Failed to play sound: $e');
+      }
     }
   }
 

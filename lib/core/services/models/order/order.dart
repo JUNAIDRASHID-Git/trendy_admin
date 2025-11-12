@@ -10,7 +10,6 @@ class OrderModel {
   final String status;
   final String paymentStatus;
   final String paymentMethod;
-  final String orderRef;
   final DateTime createdAt;
 
   OrderModel({
@@ -23,26 +22,24 @@ class OrderModel {
     required this.status,
     required this.paymentStatus,
     required this.paymentMethod,
-    required this.orderRef,
     required this.createdAt,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
-      id: json['id'],
-      userId: json['user_id'],
-      user: UserModel.fromJson(json['user']),
+      id: json['id'] ?? 0,
+      userId: json['user_id'] ?? '',
+      user: UserModel.fromJson(json['user'] ?? {}),
       items:
-          (json['items'] as List)
-              .map((item) => OrderItem.fromJson(item))
+          (json['items'] as List<dynamic>? ?? [])
+              .map((e) => OrderItem.fromJson(e))
               .toList(),
-      shippingCost: (json['shipping_cost'] as num).toDouble(),
-      totalAmount: (json['total_amount'] as num).toDouble(),
-      status: json['status'],
-      paymentStatus: json['payment_status'],
+      shippingCost: (json['shipping_cost'] as num?)?.toDouble() ?? 0.0,
+      totalAmount: (json['total_amount'] as num?)?.toDouble() ?? 0.0,
+      status: json['status'] ?? 'pending',
+      paymentStatus: json['payment_status'] ?? 'pending',
       paymentMethod: json['payment_method'] ?? '',
-      orderRef: json['order_ref'] ?? '',
-      createdAt: DateTime.parse(json['created_at']),
+      createdAt: DateTime.tryParse(json['created_at'] ?? '') ?? DateTime.now(),
     );
   }
 
@@ -56,7 +53,6 @@ class OrderModel {
     'status': status,
     'payment_status': paymentStatus,
     'payment_method': paymentMethod,
-    'order_ref': orderRef,
     'created_at': createdAt.toIso8601String(),
   };
 }
@@ -87,24 +83,30 @@ class OrderItem {
   });
 
   factory OrderItem.fromJson(Map<String, dynamic> json) {
+    // ✅ Fix: Your API returns capitalized keys like "ID", "OrderID"
+    // So we normalize both cases to be safe
     return OrderItem(
-      id: json['ID'],
-      orderId: json['OrderID'],
-      productId: json['ProductID'],
-      productEName: json['product_e_name'],
-      productArName: json['product_ar_name'],
-      productImage: json['product_image'],
-      productSalePrice: (json['product_sale_price'] as num).toDouble(),
-      productRegularPrice: (json['product_regular_price'] as num).toDouble(),
-      weight: (json['weight'] as num).toDouble(),
-      quantity: json['quantity'],
+      id: json['id'] ?? json['ID'] ?? 0,
+      orderId: json['order_id'] ?? json['OrderID'] ?? 0,
+      productId: json['product_id'] ?? json['ProductID'] ?? 0,
+      productEName: json['product_e_name'] ?? json['ProductEName'] ?? '',
+      productArName: json['product_ar_name'] ?? json['ProductArName'] ?? '',
+      productImage: json['product_image'] ?? json['ProductImage'] ?? '',
+      productSalePrice:
+          (json['product_sale_price'] ?? json['ProductSalePrice'] ?? 0)
+              .toDouble(),
+      productRegularPrice:
+          (json['product_regular_price'] ?? json['ProductRegularPrice'] ?? 0)
+              .toDouble(),
+      weight: (json['weight'] ?? json['Weight'] ?? 0).toDouble(),
+      quantity: json['quantity'] ?? json['Quantity'] ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'ID': id,
-    'OrderID': orderId,
-    'ProductID': productId,
+    'id': id,
+    'order_id': orderId,
+    'product_id': productId,
     'product_e_name': productEName,
     'product_ar_name': productArName,
     'product_image': productImage,

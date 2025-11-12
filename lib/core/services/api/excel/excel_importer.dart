@@ -31,7 +31,4 @@ Future<void> uploadExcelProducts({
   if (response.statusCode != 200) {
     throw Exception("Upload failed (${response.statusCode}): $responseBody");
   }
-
-  // You can parse the response if needed
-  print("✅ Excel uploaded successfully: $responseBody");
 }

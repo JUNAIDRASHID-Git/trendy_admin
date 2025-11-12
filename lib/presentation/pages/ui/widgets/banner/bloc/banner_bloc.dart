@@ -24,6 +24,7 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> {
         BannerImageSelected(
           result!.files.single.bytes!,
           result.files.single.name,
+          result.files.single.path ?? "",
         ),
       );
     }
@@ -35,7 +36,7 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> {
   ) async {
     emit(BannerUploading());
     try {
-      await uploadBannerWeb(event.imageBytes, event.fileName);
+      await uploadBannerWeb(event.imageBytes, event.fileName, event.url);
       emit(BannerUploadSuccess());
     } catch (e) {
       emit(BannerUploadFailure(e.toString()));

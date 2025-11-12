@@ -3,7 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:admin_pannel/core/services/api/order/get.dart';
 import 'package:admin_pannel/core/services/api/order/delete.dart';
 import 'package:admin_pannel/core/services/api/order/put.dart';
-import 'package:admin_pannel/core/services/api/order/put_shipping.dart';
 import 'package:admin_pannel/core/services/models/order/order.dart';
 
 part 'order_event.dart';
@@ -19,9 +18,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
     // Edit Payment Status
     on<EditOrderPaymentStatusEvent>(_onEditPaymentStatus);
-
-    // Edit Shipping Cost
-    on<EditOrderShippingCostEvent>(_onEditShippingCost);
 
     // Delete Order
     on<DeleteOrderEvent>(_onDeleteOrder);
@@ -56,17 +52,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       emit(OrderLoaded(orders: orders));
     } catch (e) {
       emit(OrderError(error: 'Failed to update payment status: ${e.toString()}'));
-    }
-  }
-
-  Future<void> _onEditShippingCost(EditOrderShippingCostEvent event, Emitter<OrderState> emit) async {
-    emit( OrderLoading());
-    try {
-      await editOrderShippingCost(event.orderID, event.shippingCost);
-      final orders = await getAllOrders();
-      emit(OrderLoaded(orders: orders));
-    } catch (e) {
-      emit(OrderError(error: 'Failed to update shipping cost: ${e.toString()}'));
     }
   }
 

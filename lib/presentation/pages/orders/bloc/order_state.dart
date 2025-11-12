@@ -4,7 +4,6 @@ part of 'order_bloc.dart';
 abstract class OrderState {
   const OrderState();
 
-  @override
   List<Object?> get props => [];
 }
 

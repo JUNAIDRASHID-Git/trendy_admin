@@ -10,7 +10,11 @@ class AdminsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Admins'), centerTitle: true),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text('Admins'),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: BlocBuilder<AdminBloc, AdminState>(

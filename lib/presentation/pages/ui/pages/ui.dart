@@ -9,7 +9,6 @@ class UiPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Banner Management")),
       body: BlocProvider(
         create: (context) => UiBloc()..add(BannerFetchEvent()),
         child: BlocBuilder<UiBloc, UiState>(
@@ -21,9 +20,11 @@ class UiPage extends StatelessWidget {
             } else if (state is UiLoaded) {
               final banners = state.banners;
 
-              return Column(children: [Expanded(
-                flex: 3,
-                child: BannerManagement(banners: banners))]);
+              return Column(
+                children: [
+                  Expanded(flex: 3, child: BannerManagement(banners: banners)),
+                ],
+              );
             }
 
             return const SizedBox.shrink();

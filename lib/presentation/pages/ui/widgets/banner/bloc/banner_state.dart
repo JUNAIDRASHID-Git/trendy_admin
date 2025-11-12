@@ -9,8 +9,9 @@ class BannerInitial extends BannerState {}
 class BannerImageSelected extends BannerState {
   final Uint8List imageBytes;
   final String fileName;
+  final String url;
 
-  const BannerImageSelected(this.imageBytes, this.fileName);
+  const BannerImageSelected(this.imageBytes, this.fileName, this.url);
 }
 
 class BannerUploading extends BannerState {}

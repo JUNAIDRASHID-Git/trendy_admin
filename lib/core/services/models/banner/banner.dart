@@ -2,9 +2,14 @@
 class BannerModel {
   int id;
   String imageUrl;
-  BannerModel({required this.id, required this.imageUrl});
+  String url;
+  BannerModel({required this.id, required this.imageUrl, required this.url});
 
   factory BannerModel.fromJson(Map<String, dynamic> json) {
-    return BannerModel(id: json['ID'], imageUrl: json['ImageURL']);
+    return BannerModel(
+      id: json['ID'],
+      imageUrl: json['ImageURL'],
+      url: json['URL'] ?? "",
+    );
   }
 }

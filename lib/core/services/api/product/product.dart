@@ -4,6 +4,7 @@ import 'package:admin_pannel/core/const/const.dart';
 import 'package:admin_pannel/core/services/models/product/add_product_model.dart';
 import 'package:admin_pannel/core/services/models/product/editproduct_model.dart';
 import 'package:admin_pannel/core/services/models/product/product_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
@@ -83,7 +84,9 @@ Future<void> updateProduct(
 
     // Only print imageFile if it's not null
     if (imageFile != null) {
-      print("$imageFile image file");
+      if (kDebugMode) {
+        print("$imageFile image file");
+      }
 
       // Add image if provided
       final imageStream = http.MultipartFile.fromBytes(
@@ -93,12 +96,16 @@ Future<void> updateProduct(
       );
       request.files.add(imageStream);
     } else {
-      print("No image file provided, skipping image upload");
+      if (kDebugMode) {
+        print("No image file provided, skipping image upload");
+      }
     }
 
     // Convert the product fields to a map of form fields
     final fields = product.toJson();
-    print(fields);
+    if (kDebugMode) {
+      print(fields);
+    }
     fields.forEach((key, value) {
       request.fields[key] = value.toString();
     });

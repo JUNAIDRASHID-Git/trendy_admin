@@ -1,18 +1,5 @@
 {
   "projects": {
-    "default": "trendy-admin-83285"
-  },
-  "targets": {
-    "trendy-admin-83285": {
-      "hosting": {
-        "user": [
-          "trendy-admin-83285-9ff18"
-        ],
-        "admin": [
-          "trendy-admin-83285"
-        ]
-      }
-    }
-  },
-  "etags": {}
+    "default": "trendy-c-57ade"
+  }
 }

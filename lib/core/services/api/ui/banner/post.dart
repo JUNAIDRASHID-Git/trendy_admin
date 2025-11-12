@@ -3,19 +3,23 @@ import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:admin_pannel/core/const/const.dart';
 
-Future<void> uploadBannerWeb(Uint8List imageBytes, String fileName) async {
+Future<void> uploadBannerWeb(
+  Uint8List imageBytes,
+  String fileName,
+  String url,
+) async {
   try {
     final uri = Uri.parse("$baseHost/admin/banner/upload");
-    final request =
-        http.MultipartRequest('POST', uri)
-          ..headers['X-API-KEY'] = apiKey
-          ..files.add(
-            http.MultipartFile.fromBytes(
-              'image',
-              imageBytes,
-              filename: fileName,
-            ),
-          );
+    final request = http.MultipartRequest('POST', uri);
+
+    request.headers['X-API-KEY'] = apiKey;
+    request.files.add(
+      http.MultipartFile.fromBytes('image', imageBytes, filename: fileName),
+    );
+
+    if (url.isNotEmpty) {
+      request.fields['url'] = url;
+    }
 
     final streamedResponse = await request.send();
     final responseBody = await streamedResponse.stream.bytesToString();

@@ -4,8 +4,8 @@ import 'package:admin_pannel/presentation/pages/admins/bloc/admin_event.dart';
 import 'package:admin_pannel/presentation/pages/home/bloc/home_bloc.dart';
 import 'package:admin_pannel/presentation/pages/home/bloc/home_event.dart';
 import 'package:admin_pannel/presentation/pages/product/bloc/product_bloc.dart';
-import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_bloc.dart';
-import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_event.dart';
+import 'package:admin_pannel/presentation/pages/category/bloc/category_bloc.dart';
+import 'package:admin_pannel/presentation/pages/category/bloc/category_event.dart';
 import 'package:admin_pannel/presentation/pages/splash/splash.dart';
 import 'package:admin_pannel/presentation/pages/ui/widgets/banner/bloc/banner_bloc.dart';
 import 'package:admin_pannel/presentation/pages/users/bloc/user_bloc.dart';
@@ -20,18 +20,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: "AIzaSyCgzDBi6Do4qgGBg_O5QHznEEvrqi_tES0",
-      authDomain: "trendy-chef-63c6d.firebaseapp.com",
-      projectId: "trendy-chef-63c6d",
-      storageBucket: "trendy-chef-63c6d.firebasestorage.app",
-      messagingSenderId: "524030203276",
-      appId: "1:524030203276:web:e70e7d7dd546665460b2a9",
-      measurementId: "G-G2YJW5LF4G",
+      apiKey: "AIzaSyCkCcI9xWyxcdyfuQHyorkrDvi9IB8_Xn4",
+      authDomain: "trendy-c-57ade.firebaseapp.com",
+      projectId: "trendy-c-57ade",
+      storageBucket: "trendy-c-57ade.firebasestorage.app",
+      messagingSenderId: "156938940217",
+      appId: "1:156938940217:web:73301befe1a655b1c082e8",
+      measurementId: "G-MQLLMN0F5P",
     ),
   );
 
   OrderAlertService().start(
-    "wss://api.trendy-c.com/orders/ws/orders",
+    "wss://server.trendy-c.com/orders/ws/orders",
     navigatorKey,
   );
 

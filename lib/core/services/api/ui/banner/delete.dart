@@ -12,15 +12,13 @@ Future<void> deleteBanner({required int bannerID}) async {
     );
 
     if (response.statusCode == 200) {
-      final decoded = jsonDecode(response.body);
-      print('Banner deleted successfully: $decoded');
+      jsonDecode(response.body);
     } else {
       throw Exception(
         'Failed to delete banner. Status: ${response.statusCode}\nBody: ${response.body}',
       );
     }
   } catch (e) {
-    print('Error deleting banner: $e');
     rethrow; // Optional: let higher-level handlers catch it
   }
 }

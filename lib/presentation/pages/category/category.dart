@@ -1,7 +1,7 @@
 import 'package:admin_pannel/core/theme/colors.dart';
-import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_bloc.dart';
-import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_event.dart';
-import 'package:admin_pannel/presentation/pages/product/pages/category/widgets/builder.dart';
+import 'package:admin_pannel/presentation/pages/category/bloc/category_bloc.dart';
+import 'package:admin_pannel/presentation/pages/category/bloc/category_event.dart';
+import 'package:admin_pannel/presentation/pages/category/widgets/builder.dart';
 import 'package:admin_pannel/presentation/widgets/buttons/primary.dart';
 import 'package:admin_pannel/presentation/widgets/dialogs/form_dialog.dart';
 import 'package:admin_pannel/presentation/widgets/text/heading_text.dart';
@@ -18,6 +18,7 @@ class CategoryPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.grey[50],
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           elevation: 0,
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.black87,

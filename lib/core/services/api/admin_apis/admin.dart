@@ -18,7 +18,6 @@ Future<AdminAuthResponse> adminAuthHandler(
   BuildContext context,
 ) async {
   try {
-    print(idToken);
     final uri = Uri.parse(googleAdminLoginEndpoint);
     final response = await http.post(
       uri,
@@ -62,8 +61,6 @@ Future<List<Admin>> fetchAdminUsers() async {
     );
 
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body) as List<dynamic>;
-      print('Fetched admin users: ${data.length} users');
       return jsonDecode(
         response.body,
       ).map<Admin>((json) => Admin.fromJson(json)).toList();

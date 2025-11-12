@@ -1,4 +1,5 @@
 import 'package:admin_pannel/core/services/api/admin_apis/admin.dart';
+import 'package:admin_pannel/core/services/api/order/get.dart';
 import 'package:admin_pannel/core/services/api/product/product.dart';
 import 'package:admin_pannel/core/services/api/user/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,8 +13,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       try {
         final users = await fetchAllUsers();
         final admins = await fetchAdminUsers();
-        final products = await fetchAllProducts(); // Implement this
-        // final orders = await fetchAllOrders(); // Implement this
+        final products = await fetchAllProducts();
+        final orders = await getAllOrders(); // Implement this
         // final sales = await fetchTotalSales(); // Implement this
 
         emit(
@@ -21,7 +22,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             usersCount: users.length,
             adminsCount: admins.length,
             productsCount: products.length,
-            // ordersCount: orders.length,
+            ordersCount: orders.length,
             // totalSales: sales,
           ),
         );

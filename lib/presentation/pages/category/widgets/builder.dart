@@ -1,9 +1,9 @@
 
 import 'package:admin_pannel/core/theme/colors.dart';
-import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_bloc.dart';
-import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_event.dart';
-import 'package:admin_pannel/presentation/pages/product/pages/category/bloc/category_state.dart';
-import 'package:admin_pannel/presentation/pages/product/pages/category/widgets/dialogs.dart';
+import 'package:admin_pannel/presentation/pages/category/bloc/category_bloc.dart';
+import 'package:admin_pannel/presentation/pages/category/bloc/category_event.dart';
+import 'package:admin_pannel/presentation/pages/category/bloc/category_state.dart';
+import 'package:admin_pannel/presentation/pages/category/widgets/dialogs.dart';
 import 'package:admin_pannel/presentation/widgets/buttons/delete.dart';
 import 'package:admin_pannel/presentation/widgets/buttons/edit.dart';
 import 'package:admin_pannel/presentation/widgets/dialogs/form_dialog.dart';

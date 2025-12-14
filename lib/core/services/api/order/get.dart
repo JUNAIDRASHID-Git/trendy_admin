@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<OrderModel>> getAllOrders() async {
-  final uri = Uri.parse(orderEndpoint); // Put your actual API URL
+  final uri = Uri.parse(orderEndpoint);
 
   try {
     final response = await http.get(

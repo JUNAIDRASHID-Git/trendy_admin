@@ -4,68 +4,81 @@ import 'package:admin_pannel/core/services/models/product/category_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-// For jsonEncode
+Future<void> createCategory(
+  String ename,
+  String arname, [
+  dynamic image,
+]) async {
+  final request = http.MultipartRequest(
+    'POST',
+    Uri.parse(adminCategoriesEndpoint),
+  );
 
-Future<void> createCategory(String ename, String arname) async {
-  final uri = Uri.parse(adminCategoriesEndpoint);
-  try {
-    final response = await http.post(
-      uri,
-      headers: {'Content-Type': 'application/json', 'X-API-KEY': apiKey},
-      body: jsonEncode({
-        "ename": ename,
-        "arname": arname,
-      }), // Fix: encode to JSON
-    );
+  request.headers['X-API-KEY'] = apiKey;
+  request.fields['ename'] = ename;
+  request.fields['arname'] = arname;
 
-    if (response.statusCode == 201) {
-      // Successfully created category
-      if (kDebugMode) {
-        print('Category created: ${response.body}');
-      }
+  if (image != null) {
+    if (kIsWeb) {
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'image',
+          await image.readAsBytes(),
+          filename: image.name,
+        ),
+      );
     } else {
-      // Handle error from API
-      if (kDebugMode) {
-        print(
-          'Failed to create category: ${response.statusCode} - ${response.body}',
-        );
-      }
-      throw Exception('Failed to create category: ${response.statusCode}');
+      request.files.add(await http.MultipartFile.fromPath('image', image.path));
     }
-  } catch (e) {
-    if (kDebugMode) {
-      print('Exception while creating category: $e');
-    }
-    throw Exception('Failed to create category');
+  }
+
+  final res = await request.send();
+  if (res.statusCode != 201) {
+    throw Exception(await res.stream.bytesToString());
   }
 }
 
 Future<CategoryModel> updateCategory(
   int id,
   String ename,
-  String arname,
-) async {
-  final body = json.encode({"ename": ename, "arname": arname});
+  String arname, [
+  dynamic image,
+]) async {
+  final request = http.MultipartRequest(
+    'PUT',
+    Uri.parse("$adminCategoriesEndpoint/$id"),
+  );
 
-  try {
-    final uri = Uri.parse("$adminCategoriesEndpoint/$id");
+  request.headers['X-API-KEY'] = apiKey;
 
-    final response = await http.put(
-      uri,
-      headers: {'Content-Type': 'application/json', 'X-API-KEY': apiKey},
-      body: body,
-    );
+  if (ename.isNotEmpty) request.fields['ename'] = ename;
+  if (arname.isNotEmpty) request.fields['arname'] = arname;
 
-    if (response.statusCode == 200) {
-      return CategoryModel.fromJson(json.decode(response.body));
+  if (image != null) {
+    if (kIsWeb) {
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'image',
+          await image.readAsBytes(),
+          filename: image.name,
+        ),
+      );
     } else {
-      throw Exception('Failed to update category');
+      request.files.add(await http.MultipartFile.fromPath('image', image.path));
     }
-  } catch (e) {
-    throw Exception(e);
   }
+
+  final res = await request.send();
+  final body = await res.stream.bytesToString();
+
+  if (res.statusCode == 200) {
+    return CategoryModel.fromJson(jsonDecode(body));
+  }
+
+  throw Exception(body);
 }
 
+// ------------------------- GET ALL -------------------------
 Future<List<CategoryModel>> getAllCategories() async {
   final uri = Uri.parse(adminCategoriesEndpoint);
 
@@ -85,10 +98,12 @@ Future<List<CategoryModel>> getAllCategories() async {
 }
 
 Future<void> deleteCategory(int id) async {
-  final uri = Uri.parse('$adminCategoriesEndpoint/$id');
-  final response = await http.delete(uri, headers: {'X-API-KEY': apiKey});
+  final res = await http.delete(
+    Uri.parse("$adminCategoriesEndpoint/$id"),
+    headers: {'X-API-KEY': apiKey},
+  );
 
-  if (response.statusCode != 200) {
-    throw Exception('Failed to delete category');
+  if (res.statusCode != 200) {
+    throw Exception(res.body);
   }
 }

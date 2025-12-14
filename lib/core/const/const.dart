@@ -1,9 +1,6 @@
-
-
 // const String baseHost = "http://localhost:8080";
 
 const baseHost = "https://server.trendy-c.com";
-
 
 // ────────────── Authentication ──────────────
 const String googleAdminLoginEndpoint = "$baseHost/auth/google-admin";
